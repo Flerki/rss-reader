@@ -1,7 +1,18 @@
 package com.amairovi.model;
 
 public class Feed {
+
+    private String name;
+
     private String href;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getHref() {
         return href;
