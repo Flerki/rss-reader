@@ -12,7 +12,17 @@ public class FeedDao {
     private List<Feed> feeds = new ArrayList<>();
 
     public void save(Feed feed) {
+        int nextId = getLastId() + 1;
+        feed.setId(nextId);
         feeds.add(feed);
+    }
+
+    private int getLastId() {
+        if (feeds.isEmpty()){
+            return 0;
+        }
+        int positionOfLastFeed = feeds.size() - 1;
+        return feeds.get(positionOfLastFeed).getId();
     }
 
     public Optional<Feed> findByName(String name){

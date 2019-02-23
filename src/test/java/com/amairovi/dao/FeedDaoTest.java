@@ -40,6 +40,8 @@ public class FeedDaoTest {
 
         List<Feed> feeds = feedDao.findAll();
         assertThat(feeds, containsInAnyOrder(FEED, feed2));
+        assertThat(feeds.get(0).getId(), equalTo(1));
+        assertThat(feeds.get(1).getId(), equalTo(2));
     }
 
     @Test
