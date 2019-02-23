@@ -14,9 +14,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class FeedDaoTest {
 
     private final static Feed FEED = new Feed();
+    private final static Feed FEED2 = new Feed();
     static {
+        FEED.setId(1);
         FEED.setName("name");
         FEED.setHref("href");
+        FEED.setId(2);
+        FEED2.setName("name2");
+        FEED2.setHref("href2");
     }
 
     private FeedDao feedDao = new FeedDao();
@@ -32,14 +37,11 @@ public class FeedDaoTest {
 
     @Test
     void add_several_feeds_success(){
-        Feed feed2 = new Feed();
-        feed2.setHref("href2");
-
         feedDao.save(FEED);
-        feedDao.save(feed2);
+        feedDao.save(FEED2);
 
         List<Feed> feeds = feedDao.findAll();
-        assertThat(feeds, containsInAnyOrder(FEED, feed2));
+        assertThat(feeds, containsInAnyOrder(FEED, FEED2));
         assertThat(feeds.get(0).getId(), equalTo(1));
         assertThat(feeds.get(1).getId(), equalTo(2));
     }
@@ -55,8 +57,26 @@ public class FeedDaoTest {
     }
 
     @Test
-    void when_find_by_name_non_existed_then_return_according_one(){
+    void when_find_by_name_non_existed_then_return_empty(){
         Optional<Feed> actual = feedDao.findByName(FEED.getName());
+
+        assertFalse(actual.isPresent());
+    }
+
+    @Test
+    void when_find_by_id_existed_then_return_according_one(){
+        feedDao.save(FEED);
+        feedDao.save(FEED2);
+
+        Optional<Feed> actual = feedDao.findById(FEED.getId());
+
+        assertTrue(actual.isPresent());
+        assertThat(actual.get(), equalTo(FEED));
+    }
+
+    @Test
+    void when_find_by_id_non_existed_then_return_empty(){
+        Optional<Feed> actual = feedDao.findById(FEED.getId());
 
         assertFalse(actual.isPresent());
     }

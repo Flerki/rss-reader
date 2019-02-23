@@ -32,6 +32,13 @@ public class FeedDao {
                 .findFirst();
     }
 
+    public Optional<Feed> findById(int id){
+        Predicate<Feed> feedWithSearchedId = feed -> feed.getId() == id;
+        return feeds.stream()
+                .filter(feedWithSearchedId)
+                .findFirst();
+    }
+
     public List<Feed> findAll() {
         return new ArrayList<>(feeds);
     }
