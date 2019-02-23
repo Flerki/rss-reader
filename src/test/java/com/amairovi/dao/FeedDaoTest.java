@@ -69,6 +69,18 @@ public class FeedDaoTest {
     }
 
     @Test
+    void when_update_null_feed_then_NPE() {
+        assertThrows(NullPointerException.class, () -> feedDao.update(null));
+    }
+
+    @Test
+    void when_update_success_feed_then_success() {
+        feedDao.update(FEED);
+
+        verify(persistenceStore).store(any());
+    }
+
+    @Test
     void when_find_by_name_existed_then_return_according_one() {
         feedDao.save(FEED);
 
