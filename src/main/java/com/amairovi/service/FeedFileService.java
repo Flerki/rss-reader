@@ -15,7 +15,6 @@ public class FeedFileService {
     private static final Logger LOGGER = Logger.getLogger(FeedFileService.class.getName());
 
     public void writeln(FeedFile feedFile, String data) {
-        LOGGER.log(Level.INFO, () -> "writeln: feedFile=" + feedFile + " data=" + data);
         String filename = feedFile.getFilename();
         Path pathToFile = Paths.get(filename);
 
@@ -35,9 +34,11 @@ public class FeedFileService {
             }
         }
 
-        try (BufferedWriter out = Files.newBufferedWriter(pathToFile, StandardOpenOption.APPEND)) {
-            out.write(data);
-            out.newLine();
+        synchronized (this) {
+            try (BufferedWriter out = Files.newBufferedWriter(pathToFile, StandardOpenOption.APPEND)) {
+                out.write(data);
+                out.newLine();
+            }
         }
     }
 }
