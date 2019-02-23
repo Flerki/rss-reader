@@ -1,12 +1,25 @@
 package com.amairovi.model;
 
-public class Feed {
+import java.io.Serializable;
+import java.util.Objects;
 
-    private int id;
+public class Feed implements Serializable {
+
+    private transient int id;
 
     private String name;
 
     private String href;
+
+    private FeedExtras feedExtras;
+
+    public FeedExtras getFeedExtras() {
+        return feedExtras;
+    }
+
+    public void setFeedExtras(FeedExtras feedExtras) {
+        this.feedExtras = feedExtras;
+    }
 
     public String getName() {
         return name;
@@ -30,5 +43,20 @@ public class Feed {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Feed feed = (Feed) o;
+        return Objects.equals(name, feed.name) &&
+                Objects.equals(href, feed.href) &&
+                Objects.equals(feedExtras, feed.feedExtras);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, href, feedExtras);
     }
 }
