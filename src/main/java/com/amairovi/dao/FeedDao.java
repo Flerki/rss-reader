@@ -7,14 +7,32 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+import static java.util.Objects.requireNonNull;
+
 public class FeedDao {
 
-    private List<Feed> feeds = new ArrayList<>();
+    private final List<Feed> feeds;
+
+    private final FeedPersistenceStore persistenceStore;
+
+    public FeedDao(FeedPersistenceStore persistenceStore) {
+        this.persistenceStore = persistenceStore;
+        this.feeds = persistenceStore.load();
+    }
+
 
     public void save(Feed feed) {
+        requireNonNull(feed);
+
         int nextId = getLastId() + 1;
         feed.setId(nextId);
         feeds.add(feed);
+
+        persistenceStore.store(feeds);
+    }
+
+    public void update(Feed feed){
+        persistenceStore.store(feeds);
     }
 
     private int getLastId() {
