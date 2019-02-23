@@ -73,7 +73,7 @@ class FeedPersistenceStoreTest {
         FeedExtras feed1Extras = new FeedExtras();
         feed1Extras.setAmountOfElementsAtOnce(10);
         feed1Extras.setFilename("filename1");
-        feed1Extras.setSurveyPeriod(Period.ofDays(2));
+        feed1Extras.setSurveyPeriod(1);
 
         feed.setFeedExtras(feed1Extras);
 
@@ -84,7 +84,7 @@ class FeedPersistenceStoreTest {
         FeedExtras feed2Extras = new FeedExtras();
         feed2Extras.setAmountOfElementsAtOnce(20);
         feed2Extras.setFilename("filename2");
-        feed2Extras.setSurveyPeriod(Period.ofDays(3));
+        feed2Extras.setSurveyPeriod(1);
 
         feed2.setFeedExtras(feed2Extras);
 

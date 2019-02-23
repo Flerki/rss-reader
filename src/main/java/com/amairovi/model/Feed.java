@@ -11,7 +11,7 @@ public class Feed implements Serializable {
 
     private String href;
 
-    private FeedExtras feedExtras;
+    private FeedExtras feedExtras = new FeedExtras();
 
     public FeedExtras getFeedExtras() {
         return feedExtras;

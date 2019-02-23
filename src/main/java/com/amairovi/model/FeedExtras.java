@@ -1,29 +1,19 @@
 package com.amairovi.model;
 
 import java.io.Serializable;
-import java.time.Period;
 import java.util.Objects;
 
 public class FeedExtras implements Serializable {
-    private Period surveyPeriod;
+    private long surveyPeriodInMs;
     private String filename;
     private int amountOfElementsAtOnce;
 
-    public FeedExtras() {
+    public long getSurveyPeriod() {
+        return surveyPeriodInMs;
     }
 
-    public FeedExtras(Period surveyPeriod, String filename, int amountOfElementsAtOnce) {
-        this.surveyPeriod = surveyPeriod;
-        this.filename = filename;
-        this.amountOfElementsAtOnce = amountOfElementsAtOnce;
-    }
-
-    public Period getSurveyPeriod() {
-        return surveyPeriod;
-    }
-
-    public void setSurveyPeriod(Period surveyPeriod) {
-        this.surveyPeriod = surveyPeriod;
+    public void setSurveyPeriod(long surveyPeriodInMs) {
+        this.surveyPeriodInMs = surveyPeriodInMs;
     }
 
     public String getFilename() {
@@ -48,12 +38,12 @@ public class FeedExtras implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         FeedExtras that = (FeedExtras) o;
         return amountOfElementsAtOnce == that.amountOfElementsAtOnce &&
-                Objects.equals(surveyPeriod, that.surveyPeriod) &&
+                Objects.equals(surveyPeriodInMs, that.surveyPeriodInMs) &&
                 Objects.equals(filename, that.filename);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(surveyPeriod, filename, amountOfElementsAtOnce);
+        return Objects.hash(surveyPeriodInMs, filename, amountOfElementsAtOnce);
     }
 }
