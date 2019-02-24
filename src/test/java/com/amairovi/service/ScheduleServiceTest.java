@@ -3,6 +3,7 @@ package com.amairovi.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +15,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static com.amairovi.utility.ReflectionUtils.setFinalStatic;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.contains;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 class ScheduleServiceTest {
 
@@ -73,6 +78,37 @@ class ScheduleServiceTest {
             scheduleService.scheduleTask(feedId2, period, doNothing);
 
             assertThat(scheduleService.getScheduledIds(), contains(feedId, feedId2));
+        }
+    }
+
+    @Nested
+    class CancelTask {
+        private ScheduledFuture scheduledFuture2;
+
+        @BeforeEach
+        void setup() throws Exception {
+            Map<Integer, ScheduledFuture<?>> idToTask = new HashMap<>();
+            idToTask.put(1, mock(ScheduledFuture.class));
+
+            scheduledFuture2 = mock(ScheduledFuture.class);
+            idToTask.put(2, scheduledFuture2);
+            setFinalStatic(scheduleService, "idToTask", idToTask);
+        }
+
+        @Test
+        void when_no_cancelling_task_then_do_nothing() {
+            scheduleService.cancelTask(3);
+
+            assertThat(scheduleService.getScheduledIds(), contains(1, 2));
+        }
+
+        @Test
+        void when_cancel_scheduled_task_then_cancel_it() {
+            scheduleService.cancelTask(2);
+
+            assertThat(scheduleService.getScheduledIds(), contains(1));
+
+            verify(scheduledFuture2).cancel(eq(false));
         }
     }
 }

@@ -23,11 +23,16 @@ public class ScheduleService {
         scheduleNewOne(feedId, period, loadTask);
     }
 
+    public void cancelTask(int feedId) {
+        removeExisted(feedId);
+    }
+
     private void removeExisted(int feedId) {
         ScheduledFuture<?> existed = idToTask.get(feedId);
 
         if (existed != null) {
             existed.cancel(false);
+            idToTask.remove(feedId);
         }
     }
 
@@ -35,6 +40,7 @@ public class ScheduleService {
         ScheduledFuture<?> scheduledFuture = executor.scheduleAtFixedRate(loadTask, 0, period, TimeUnit.MILLISECONDS);
         idToTask.put(feedId, scheduledFuture);
     }
+
 
     public Set<Integer> getScheduledIds() {
         return idToTask.keySet();
