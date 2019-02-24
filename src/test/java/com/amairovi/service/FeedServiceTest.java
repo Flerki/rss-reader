@@ -7,14 +7,13 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.mockito.Mockito;
 
 import static com.amairovi.utility.CustomAssert.assertThrowsIae;
 import static com.amairovi.utility.CustomAssert.assertThrowsNpe;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 class FeedServiceTest {
 
@@ -25,17 +24,41 @@ class FeedServiceTest {
 
     private FeedService feedService;
     private ScheduleService scheduleService;
+    private LoadTaskFactory loadTaskFactory;
 
     @BeforeEach
     void setup() {
-        feedDao = Mockito.mock(FeedDao.class);
-        scheduleService = Mockito.mock(ScheduleService.class);
+        feedDao = mock(FeedDao.class);
+        scheduleService = mock(ScheduleService.class);
+        loadTaskFactory = mock(LoadTaskFactory.class);
 
-        feedService = new FeedService(feedDao, scheduleService);
+        feedService = new FeedService(feedDao, scheduleService, loadTaskFactory);
 
         feed = new Feed();
         feedId = 1;
         feed.setId(feedId);
+    }
+
+
+    @Nested
+    class CreateFeed{
+        @Test
+        void when_url_is_null_then_NPE() {
+            assertThrowsNpe(() -> feedService.createFeed(null, 1));
+        }
+
+        @Test
+        void when_params_are_ok_then_success() {
+            Runnable task = mock(Runnable.class);
+            when(loadTaskFactory.create(any())).thenReturn(task);
+            long pollPeriod = 100;
+
+            feedService.createFeed("https://example.com/go?id=asd%20%30&id=2cd", pollPeriod);
+
+            verify(feedDao).save(any());
+            verify(loadTaskFactory).create(any());
+            verify(scheduleService).scheduleTask(anyInt(), eq(pollPeriod), eq(task));
+        }
     }
 
 
@@ -112,7 +135,7 @@ class FeedServiceTest {
     }
 
     @Nested
-    class DisablePoll{
+    class DisablePoll {
         @Test
         void when_feed_is_null_then_NPE() {
             assertThrowsNpe(() -> feedService.disablePoll(null));
