@@ -12,23 +12,30 @@ import org.mockito.Mockito;
 import static com.amairovi.utility.CustomAssert.assertThrowsIae;
 import static com.amairovi.utility.CustomAssert.assertThrowsNpe;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
 class FeedServiceTest {
 
     private Feed feed;
+    private int feedId;
 
     private FeedDao feedDao;
 
     private FeedService feedService;
+    private ScheduleService scheduleService;
 
     @BeforeEach
     void setup() {
         feedDao = Mockito.mock(FeedDao.class);
-        feedService = new FeedService(feedDao);
+        scheduleService = Mockito.mock(ScheduleService.class);
+
+        feedService = new FeedService(feedDao, scheduleService);
 
         feed = new Feed();
+        feedId = 1;
+        feed.setId(feedId);
     }
 
 
@@ -53,6 +60,7 @@ class FeedServiceTest {
             assertEquals(feed.getFeedExtras().getSurveyPeriod(), surveyPeriodInMs);
 
             verify(feedDao).update(eq(feed));
+            verify(scheduleService).scheduleTask(eq(feedId), eq(surveyPeriodInMs), any());
         }
     }
 

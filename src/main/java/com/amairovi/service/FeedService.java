@@ -7,9 +7,12 @@ import static java.util.Objects.requireNonNull;
 
 public class FeedService {
     private final FeedDao feedDao;
+    private final ScheduleService scheduleService;
 
-    public FeedService(FeedDao feedDao) {
+
+    public FeedService(FeedDao feedDao, ScheduleService scheduleService) {
         this.feedDao = feedDao;
+        this.scheduleService = scheduleService;
     }
 
     public void setFeedSurveyPeriod(Feed feed, long surveyPeriodInMs){
@@ -21,6 +24,8 @@ public class FeedService {
 
         feed.getFeedExtras().setSurveyPeriod(surveyPeriodInMs);
         feedDao.update(feed);
+
+        scheduleService.scheduleTask(feed.getId(), surveyPeriodInMs, () -> {});
     }
 
     public void setFeedFilename(Feed feed, String filename){
