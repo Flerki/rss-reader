@@ -45,4 +45,11 @@ public class FeedService {
         feed.getFeedExtras().setAmountOfElementsAtOnce(amountOfElementsAtOnce);
         feedDao.update(feed);
     }
+
+    public void disablePoll(Feed feed){
+        requireNonNull(feed);
+
+        int id = feed.getId();
+        scheduleService.cancelTask(id);
+    }
 }

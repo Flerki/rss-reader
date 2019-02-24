@@ -111,4 +111,19 @@ class FeedServiceTest {
         }
     }
 
+    @Nested
+    class DisablePoll{
+        @Test
+        void when_feed_is_null_then_NPE() {
+            assertThrowsNpe(() -> feedService.disablePoll(null));
+        }
+
+        @Test
+        void when_feed_is_not_null_then_disable() {
+            feedService.disablePoll(feed);
+
+            verify(scheduleService).cancelTask(feedId);
+        }
+    }
+
 }
