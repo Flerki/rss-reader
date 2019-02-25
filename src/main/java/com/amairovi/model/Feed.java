@@ -59,4 +59,14 @@ public class Feed implements Serializable {
     public int hashCode() {
         return Objects.hash(name, href, feedExtras);
     }
+
+    @Override
+    public String toString() {
+        return "Feed{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", href='" + href + '\'' +
+                ", feedExtras=" + feedExtras +
+                '}';
+    }
 }
