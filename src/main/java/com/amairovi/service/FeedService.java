@@ -22,7 +22,7 @@ public class FeedService {
             throw new IllegalArgumentException("Poll period has to be greater than 0");
         }
 
-        String filename = url.replaceAll("^[A-Za-z0-9]", "_");
+        String filename = url.replaceAll("[^A-Za-z0-9]", "_");
         Feed feed = new Feed();
         feed.setHref(url);
         feed.setName(filename);
