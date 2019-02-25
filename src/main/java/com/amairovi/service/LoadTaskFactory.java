@@ -2,8 +2,10 @@ package com.amairovi.service;
 
 import com.amairovi.model.Feed;
 import com.amairovi.model.FeedFile;
+import com.amairovi.model.FeedProperties;
 import com.rometools.rome.feed.synd.SyndFeed;
 
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,10 +32,21 @@ public class LoadTaskFactory {
         return () -> {
             LOGGER.log(Level.INFO, () -> "run load task for feed=" + feed);
 
-            feedLoaderService.load(feed)
-                    .map(SyndFeed::toString)
-                    .ifPresent(stringFeed -> fileService.writeln(feedFile, stringFeed));
+            Optional<SyndFeed> syndFeedOptional = feedLoaderService.load(feed);
+            if (syndFeedOptional.isPresent()) {
+                SyndFeed syndFeed = syndFeedOptional.get();
+
+                updateFeed(syndFeed, feed);
+
+                String syndFeedStr = syndFeed.toString();
+                fileService.writeln(feedFile, syndFeedStr);
+            }
         };
+    }
+
+    private void updateFeed(SyndFeed syndFeed, Feed feed) {
+        FeedProperties feedProperties = new FeedProperties(syndFeed);
+        feed.setFeedProperties(feedProperties);
     }
 
 }
