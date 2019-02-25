@@ -13,6 +13,16 @@ public class Feed implements Serializable {
 
     private FeedExtras feedExtras = new FeedExtras();
 
+    private FeedProperties feedProperties;
+
+    public FeedProperties getFeedProperties() {
+        return feedProperties;
+    }
+
+    public void setFeedProperties(FeedProperties feedProperties) {
+        this.feedProperties = feedProperties;
+    }
+
     public FeedExtras getFeedExtras() {
         return feedExtras;
     }
