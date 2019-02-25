@@ -1,7 +1,12 @@
 package com.amairovi.model;
 
 import java.io.Serializable;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
+
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 
 public class Feed implements Serializable {
 
@@ -15,12 +20,38 @@ public class Feed implements Serializable {
 
     private FeedProperties feedProperties;
 
+    private Map<String, Boolean> entryParameterNameToVisibility = new LinkedHashMap<>();
+
     public FeedProperties getFeedProperties() {
         return feedProperties;
     }
 
     public void setFeedProperties(FeedProperties feedProperties) {
         this.feedProperties = feedProperties;
+    }
+
+    public Map<String, Boolean> getEntryParameterNameToVisibility() {
+        return entryParameterNameToVisibility;
+    }
+
+    public void addParameter(String parameterName){
+        if (!entryParameterNameToVisibility.containsKey(parameterName)){
+            entryParameterNameToVisibility.put(parameterName, TRUE);
+        }
+    }
+
+    public void hideParameter(String parameterName){
+        if (!entryParameterNameToVisibility.containsKey(parameterName)){
+            throw new IllegalArgumentException("No entry with name=" + parameterName);
+        }
+        entryParameterNameToVisibility.put(parameterName, FALSE);
+    }
+
+    public void showParameter(String parameterName){
+        if (!entryParameterNameToVisibility.containsKey(parameterName)){
+            throw new IllegalArgumentException("No entry with name=" + parameterName);
+        }
+        entryParameterNameToVisibility.put(parameterName, TRUE);
     }
 
     public FeedExtras getFeedExtras() {
