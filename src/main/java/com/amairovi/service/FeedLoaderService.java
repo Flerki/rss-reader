@@ -10,10 +10,14 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FeedLoaderService {
+    private static final Logger LOGGER = Logger.getLogger(FeedLoaderService.class.getName());
 
     public Optional<SyndFeed> load(Feed feed) {
+        LOGGER.log(Level.INFO, () -> "load for feed=" + feed);
         return retrieveUrl(feed)
                 .map(this::load);
     }
@@ -23,6 +27,7 @@ public class FeedLoaderService {
         try {
             return Optional.of(new URL(href));
         } catch (MalformedURLException e) {
+            LOGGER.log(Level.SEVERE, e.getMessage());
             e.printStackTrace();
         }
         return Optional.empty();
@@ -32,6 +37,7 @@ public class FeedLoaderService {
         try (XmlReader reader = new XmlReader(url)) {
             return new SyndFeedInput().build(reader);
         } catch (FeedException | IOException e) {
+            LOGGER.log(Level.SEVERE, e.getMessage());
             e.printStackTrace();
         }
         return null;
