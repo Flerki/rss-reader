@@ -3,6 +3,7 @@ package com.amairovi.dao;
 import com.amairovi.model.Feed;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 
 import static java.util.Objects.requireNonNull;
@@ -18,7 +19,7 @@ public class FeedDao {
         this.persistenceStore = persistenceStore;
 
         nextId = 1;
-        idToFeed = new HashMap<>();
+        idToFeed = new ConcurrentHashMap<>();
         List<Feed> feeds = persistenceStore.load();
         for (int i = 0; i < feeds.size(); i++) {
             idToFeed.put(nextId++, feeds.get(i));

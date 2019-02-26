@@ -43,7 +43,7 @@ public class FeedPersistenceStore {
         return result;
     }
 
-    public void store(List<Feed> feeds) {
+    public synchronized void store(List<Feed> feeds) {
         try (OutputStream outStream = newOutputStream(filepath, StandardOpenOption.CREATE)) {
             ObjectOutputStream out = new ObjectOutputStream(outStream);
             out.writeObject(feeds);
