@@ -5,11 +5,9 @@ import com.amairovi.model.FeedFile;
 import com.rometools.rome.feed.synd.SyndFeed;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -18,13 +16,15 @@ class LoadTaskFactoryTest {
     private LoadTaskFactory loadTaskFactory;
     private FeedFileService feedFileService;
     private FeedLoaderService feedLoaderService;
+    private FeedFormatter feedFormatter;
 
     @BeforeEach
     void setup() {
         feedFileService = mock(FeedFileService.class);
         feedLoaderService = mock(FeedLoaderService.class);
+        feedFormatter = mock(FeedFormatter.class);
 
-        loadTaskFactory = new LoadTaskFactory(feedFileService, feedLoaderService);
+        loadTaskFactory = new LoadTaskFactory(feedFileService, feedLoaderService, feedFormatter);
     }
 
     @Test
@@ -35,6 +35,7 @@ class LoadTaskFactoryTest {
 
         when(syndFeed.toString()).thenReturn(syndFeedStr);
         when(feedLoaderService.load(eq(feed))).thenReturn(of(syndFeed));
+        when(feedFormatter.format(eq(syndFeed), eq(feed))).thenReturn(syndFeedStr);
 
         Runnable runnable = loadTaskFactory.create(feed);
         runnable.run();
