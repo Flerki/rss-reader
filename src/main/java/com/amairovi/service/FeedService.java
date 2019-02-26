@@ -36,6 +36,20 @@ public class FeedService {
         scheduleService.scheduleTask(id, pollPeriod, task);
     }
 
+    public void hideProperty(Feed feed, String propertyName){
+        if (!feed.getEntryParameterNameToVisibility().containsKey(propertyName)){
+            throw new IllegalArgumentException("There is no property with name=" + propertyName + " for feed with id=" + feed.getId());
+        }
+        feed.hideParameter(propertyName);
+    }
+
+    public void showProperty(Feed feed, String propertyName){
+        if (!feed.getEntryParameterNameToVisibility().containsKey(propertyName)){
+            throw new IllegalArgumentException("There is no property with name=" + propertyName + " for feed with id=" + feed.getId());
+        }
+        feed.showParameter(propertyName);
+    }
+
     public void setFeedSurveyPeriod(Feed feed, long pollPeriod){
         requireNonNull(feed);
 
@@ -73,5 +87,10 @@ public class FeedService {
 
         int id = feed.getId();
         scheduleService.cancelTask(id);
+    }
+
+    public Feed findById(int id){
+        return feedDao.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Feed with id="+ id + "is not found"));
     }
 }
