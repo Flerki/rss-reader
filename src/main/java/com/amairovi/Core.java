@@ -2,14 +2,19 @@ package com.amairovi;
 
 import com.amairovi.dao.FeedDao;
 import com.amairovi.dao.FeedPersistenceStore;
+import com.amairovi.dto.FeedBriefInfo;
 import com.amairovi.model.Feed;
 import com.amairovi.service.*;
 
+import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.stream.Collectors;
 
 import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
 
 public class Core {
+    private final static long DEFAULT_POLL_PERIOD_MS = 60 * 1000;
+
     private final FeedDao feedDao;
     private final FeedPersistenceStore feedPersistenceStore;
 
@@ -38,15 +43,22 @@ public class Core {
         feedService.createFeed(url, pollPeriod);
     }
 
-    public void setFeedSurveyPeriod(Feed feed, long pollPeriod) {
+    public void createFeed(String url) {
+        feedService.createFeed(url, DEFAULT_POLL_PERIOD_MS);
+    }
+
+    public void setFeedSurveyPeriod(int id, long pollPeriod) {
+        Feed feed = feedService.findById(id);
         feedService.setFeedSurveyPeriod(feed, pollPeriod);
     }
 
-    public void setFeedFilename(Feed feed, String filename) {
+    public void setFeedFilename(int id, String filename) {
+        Feed feed = feedService.findById(id);
         feedService.setFeedFilename(feed, filename);
     }
 
-    public void setFeedAmountOfElementsAtOnce(Feed feed, int amountOfElementsAtOnce) {
+    public void setFeedAmountOfElementsAtOnce(int id, int amountOfElementsAtOnce) {
+        Feed feed = feedService.findById(id);
         feedService.setFeedAmountOfElementsAtOnce(feed, amountOfElementsAtOnce);
     }
 
@@ -55,12 +67,38 @@ public class Core {
         feedService.hideProperty(feed, propertyName);
     }
 
-    public void showProperty(int id,  String propertyName) {
+    public void showProperty(int id, String propertyName) {
         Feed feed = feedService.findById(id);
         feedService.showProperty(feed, propertyName);
     }
 
-    public void disablePoll(Feed feed) {
+    public void enablePoll(int id) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    public void disablePoll(int id) {
+        Feed feed = feedService.findById(id);
         feedService.disablePoll(feed);
+    }
+
+    public List<FeedBriefInfo> list() {
+        return feedDao.findAll()
+                .stream()
+                .map(FeedBriefInfo::new)
+                .collect(Collectors.toList());
+    }
+
+    public void delete(int id) {
+        throw new RuntimeException("Not implemented");
+
+    }
+
+    public String describe(int id) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    public void redirectFeedTo(int id, String filename) {
+        throw new RuntimeException("Not implemented");
+
     }
 }
