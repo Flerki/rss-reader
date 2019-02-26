@@ -6,7 +6,7 @@ import java.util.Objects;
 public class FeedExtras implements Serializable {
     private long surveyPeriodInMs;
     private String filename;
-    private int amountOfElementsAtOnce;
+    private int amountOfElementsAtOnce = 1;
 
     public long getSurveyPeriod() {
         return surveyPeriodInMs;

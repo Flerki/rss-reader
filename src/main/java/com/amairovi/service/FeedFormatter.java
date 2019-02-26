@@ -19,6 +19,7 @@ public class FeedFormatter {
 
         return syndFeed.getEntries()
                 .stream()
+                .limit(feed.getFeedExtras().getAmountOfElementsAtOnce())
                 .map(entry -> entryToString(entry, entryParameterNameToVisibility))
                 .collect(Collectors.joining());
 
@@ -29,13 +30,13 @@ public class FeedFormatter {
 
         str.append(String.format("%n"));
 
-        if (entryParameterNameToVisibility.containsKey("content")) {
+        if (entryParameterNameToVisibility.containsKey("content") && entryParameterNameToVisibility.get("content")) {
 
             String content = String.format(PATTERN, "content", contentToString(entry.getContents()));
             str.append(content);
         }
 
-        if (entryParameterNameToVisibility.containsKey("categories")) {
+        if (entryParameterNameToVisibility.containsKey("categories") && entryParameterNameToVisibility.get("categories")) {
             String categories = String.format(PATTERN, "categories", categoriesToString(entry.getCategories()));
             str.append(categories);
         }
