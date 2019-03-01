@@ -17,6 +17,8 @@ public class FeedStubServer {
     private final int port;
     private final String atomResponse;
     private final String rssResponse;
+    private final String atomWithoutEntries;
+    private final String rssWithoutEntries;
     private final String baseUrl;
 
     private ClientAndServer mockServer;
@@ -27,6 +29,8 @@ public class FeedStubServer {
 
         atomResponse = readFile("atom.xml");
         rssResponse = readFile("rss.xml");
+        atomWithoutEntries = readFile("atom-without-entries.xml");
+        rssWithoutEntries = readFile("rss-without-entries.xml");
 
     }
 
@@ -50,10 +54,34 @@ public class FeedStubServer {
                         .withStatusCode(200)
                         .withBody(rssResponse)
                 );
+        mockServer.when(
+                request()
+                        .withMethod("GET")
+                        .withPath("/atom_without_entries"))
+                .respond(response()
+                        .withStatusCode(200)
+                        .withBody(atomWithoutEntries)
+                );
+        mockServer.when(
+                request()
+                        .withMethod("GET")
+                        .withPath("/rss_without_entries"))
+                .respond(response()
+                        .withStatusCode(200)
+                        .withBody(rssWithoutEntries)
+                );
     }
 
     public String getAtomUrl() {
         return baseUrl + "/atom";
+    }
+
+    public String getAtomWithoutEntries() {
+        return baseUrl + "/atom_without_entries";
+    }
+
+    public String getRssWithoutEntries() {
+        return baseUrl + "/rss_without_entries";
     }
 
     public String getRssUrl() {
