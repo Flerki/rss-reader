@@ -11,14 +11,16 @@ import java.util.Scanner;
 public class CreateProcessor implements CommandProcessor {
     private final Core core;
     private final FeedConfigsFormatter feedConfigsFormatter;
+    private final Scanner input;
 
-    public CreateProcessor(Core core, FeedConfigsFormatter feedConfigsFormatter) {
+    public CreateProcessor(Core core, FeedConfigsFormatter feedConfigsFormatter, Scanner input) {
         this.core = core;
         this.feedConfigsFormatter = feedConfigsFormatter;
+        this.input = input;
     }
 
     @Override
-    public void process(String[] params, Scanner scanner) {
+    public void process(String[] params) {
         System.out.println("Initialising feed...");
 
         String url = params[1];
@@ -27,10 +29,10 @@ public class CreateProcessor implements CommandProcessor {
         System.out.println("Feed is initialised");
         System.out.println();
 
-        printFeedInfo(feedId, scanner);
+        printFeedInfo(feedId);
     }
 
-    private void printFeedInfo(int feedId, Scanner scanner) {
+    private void printFeedInfo(int feedId) {
         FeedInfo feedFullDescription = core.getFeedFullDescription(feedId);
 
         System.out.println(feedConfigsFormatter.format(feedFullDescription));
@@ -54,20 +56,20 @@ public class CreateProcessor implements CommandProcessor {
         System.out.println();
 
         System.out.println("Do you want to hide any of parameters? (y/n)");
-        if (readYesNo(scanner)) {
+        if (readYesNo()) {
             for (String propertyName : feedFullDescription.getEntryParameterNameToVisibility()
                     .keySet()) {
                 System.out.println("Do you want to hide " + propertyName + "? (y/n)");
-                if (readYesNo(scanner)) {
+                if (readYesNo()) {
                     core.hideProperty(feedId, propertyName);
                 }
             }
         }
     }
 
-    private boolean readYesNo(Scanner scanner) {
+    private boolean readYesNo() {
         while (true) {
-            String line = scanner.nextLine();
+            String line = input.nextLine();
             if (line.equals("y")) {
                 return true;
             }

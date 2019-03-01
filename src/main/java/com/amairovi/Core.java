@@ -93,6 +93,10 @@ public class Core {
 
     }
 
+    public void stop(){
+
+    }
+
     public String describe(int id) {
         throw new RuntimeException("Not implemented");
     }

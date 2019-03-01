@@ -5,7 +5,6 @@ import com.amairovi.cli.CommandProcessor;
 import com.amairovi.dto.FeedBriefInfo;
 
 import java.util.List;
-import java.util.Scanner;
 
 import static java.lang.System.lineSeparator;
 import static java.util.stream.Collectors.joining;
@@ -23,7 +22,7 @@ public class ListProcessor implements CommandProcessor {
     }
 
     @Override
-    public void process(String[] params, Scanner scanner) {
+    public void process(String[] params) {
         List<FeedBriefInfo> feeds = core.list();
         if (feeds.isEmpty()) {
             System.out.println("There is no feed.");

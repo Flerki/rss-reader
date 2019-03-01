@@ -1,9 +1,7 @@
 package com.amairovi.cli;
 
-import java.util.Scanner;
-
 public interface CommandProcessor {
-    default void process(String[] params, Scanner scanner){
+    default void process(String[] params){
         throw new RuntimeException("not implemented");
     }
 }
