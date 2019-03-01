@@ -78,7 +78,7 @@ public class FeedStubServer {
     }
 
     private String readFile(String name) {
-        try (InputStream resourceAsStream = Main.class.getResourceAsStream(name)) {
+        try (InputStream resourceAsStream = FeedStubServer.class.getResourceAsStream(name)) {
             BufferedReader input = new BufferedReader(new InputStreamReader(resourceAsStream));
             return input.lines().collect(joining());
         } catch (IOException e) {

@@ -4,7 +4,6 @@ import com.amairovi.exception.FeedProcessingException;
 import com.amairovi.exception.InvalidLinkFormatException;
 import com.amairovi.model.Feed;
 import com.amairovi.utility.FeedStubServer;
-import com.amairovi.utility.Main;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
@@ -80,7 +79,7 @@ class FeedLoaderServiceTest {
         }
 
         private SyndFeed loadFeedFromFile(String name) throws IOException, FeedException {
-            URL url = Main.class.getResource(name);
+            URL url = FeedLoaderServiceTest.class.getResource(name);
             try (XmlReader xmlReader = new XmlReader(url)) {
                 return new SyndFeedInput().build(xmlReader);
             }
