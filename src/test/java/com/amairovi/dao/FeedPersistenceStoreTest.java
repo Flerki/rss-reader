@@ -1,7 +1,6 @@
 package com.amairovi.dao;
 
 import com.amairovi.model.Feed;
-import com.amairovi.model.FeedExtras;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -78,24 +77,16 @@ class FeedPersistenceStoreTest {
         Feed feed = new Feed();
         feed.setName("feed1");
         feed.setHref("href1");
-
-        FeedExtras feed1Extras = new FeedExtras();
-        feed1Extras.setAmountOfElementsAtOnce(10);
-        feed1Extras.setFilename("filename1");
-        feed1Extras.setSurveyPeriod(1);
-
-        feed.setFeedExtras(feed1Extras);
+        feed.setAmountOfElementsAtOnce(10);
+        feed.setFilename("filename1");
+        feed.setSurveyPeriodInMs(1);
 
         Feed feed2 = new Feed();
         feed2.setName("feed2");
         feed2.setHref("href2");
-
-        FeedExtras feed2Extras = new FeedExtras();
-        feed2Extras.setAmountOfElementsAtOnce(20);
-        feed2Extras.setFilename("filename2");
-        feed2Extras.setSurveyPeriod(1);
-
-        feed2.setFeedExtras(feed2Extras);
+        feed2.setAmountOfElementsAtOnce(20);
+        feed2.setFilename("filename2");
+        feed2.setSurveyPeriodInMs(1);
 
         return Arrays.asList(feed, feed2);
     }

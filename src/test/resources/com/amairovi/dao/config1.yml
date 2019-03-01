@@ -1,12 +1,4 @@
-- !!com.amairovi.model.Feed
-  feedExtras: {amountOfElementsAtOnce: 10, filename: filename1, surveyPeriod: 1}
-  feedProperties: null
-  href: href1
-  id: 0
-  name: feed1
-- !!com.amairovi.model.Feed
-  feedExtras: {amountOfElementsAtOnce: 20, filename: filename2, surveyPeriod: 1}
-  feedProperties: null
-  href: href2
-  id: 0
-  name: feed2
+- !!com.amairovi.model.Feed {amountOfElementsAtOnce: 10, feedProperties: null, filename: filename1,
+                             href: href1, id: 0, name: feed1, surveyPeriodInMs: 1}
+- !!com.amairovi.model.Feed {amountOfElementsAtOnce: 20, feedProperties: null, filename: filename2,
+                             href: href2, id: 0, name: feed2, surveyPeriodInMs: 1}
