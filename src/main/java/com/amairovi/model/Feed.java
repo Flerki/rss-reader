@@ -1,6 +1,5 @@
 package com.amairovi.model;
 
-import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -8,9 +7,9 @@ import java.util.Objects;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 
-public class Feed implements Serializable {
+public class Feed {
 
-    private transient int id;
+    private int id;
 
     private String name;
 

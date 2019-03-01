@@ -1,9 +1,8 @@
 package com.amairovi.model;
 
-import java.io.Serializable;
 import java.util.Objects;
 
-public class FeedExtras implements Serializable {
+public class FeedExtras {
     private long surveyPeriodInMs;
     private String filename;
     private int amountOfElementsAtOnce = 1;
