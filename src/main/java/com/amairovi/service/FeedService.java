@@ -9,11 +9,13 @@ public class FeedService {
     private final FeedDao feedDao;
     private final ScheduleService scheduleService;
     private final LoadTaskFactory loadTaskFactory;
+    private final EntryPropertiesService entryPropertiesService;
 
-    public FeedService(FeedDao feedDao, ScheduleService scheduleService, LoadTaskFactory loadTaskFactory) {
+    public FeedService(FeedDao feedDao, ScheduleService scheduleService, LoadTaskFactory loadTaskFactory, EntryPropertiesService entryPropertiesService) {
         this.feedDao = feedDao;
         this.scheduleService = scheduleService;
         this.loadTaskFactory = loadTaskFactory;
+        this.entryPropertiesService = entryPropertiesService;
     }
 
     public void createFeed(String url, long pollPeriod){
@@ -40,7 +42,7 @@ public class FeedService {
         if (!feed.getEntryParameterNameToVisibility().containsKey(propertyName)){
             throw new IllegalArgumentException("There is no property with name=" + propertyName + " for feed with id=" + feed.getId());
         }
-        feed.hideParameter(propertyName);
+        entryPropertiesService.hideParameter(feed, propertyName);
     }
 
     public void showProperty(Feed feed, String propertyName){
