@@ -38,6 +38,14 @@ class CoreTest {
     }
 
     @Test
+    void when_rss_without_published_then_throw_error(){
+        assertThrows(IncorrectRssException.class,
+                () -> core.createFeed(feedStubServer.getAtomWithoutPublished()));
+        assertThrows(IncorrectRssException.class,
+                () -> core.createFeed(feedStubServer.getRssWithoutPublished()));
+    }
+
+    @Test
     @Disabled
     void works() throws InterruptedException {
 //        core.createFeed("https://fletcherpenney.net/atom.xml", 5000);

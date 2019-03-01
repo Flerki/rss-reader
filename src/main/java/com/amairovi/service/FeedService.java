@@ -5,6 +5,7 @@ import com.amairovi.exception.IncorrectRssException;
 import com.amairovi.model.Feed;
 import com.rometools.rome.feed.synd.SyndFeed;
 
+import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
 
 public class FeedService {
@@ -35,6 +36,10 @@ public class FeedService {
         SyndFeed syndFeed = feedLoaderService.load(feed);
         if (syndFeed.getEntries().isEmpty()){
             throw new IncorrectRssException("Feed doesn't contain entries");
+        }
+
+        if (isNull(syndFeed.getPublishedDate())){
+            throw new IncorrectRssException("Feed doesn't contain published date");
         }
     }
 

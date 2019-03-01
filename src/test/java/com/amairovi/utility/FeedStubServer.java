@@ -28,10 +28,13 @@ public class FeedStubServer {
     public void start() {
         mockServer = startClientAndServer(port);
         addEndpoint("/atom", readFile("atom.xml"));
-        addEndpoint("/rss",  readFile("rss.xml"));
+        addEndpoint("/rss", readFile("rss.xml"));
 
         addEndpoint("/atom_without_entries", readFile("atom-without-entries.xml"));
         addEndpoint("/rss_without_entries", readFile("rss-without-entries.xml"));
+
+        addEndpoint("/atom_without_published", readFile("atom-without-published.xml"));
+        addEndpoint("/rss_without_published", readFile("rss-without-published.xml"));
     }
 
     private void addEndpoint(String path, String response) {
@@ -52,6 +55,14 @@ public class FeedStubServer {
 
     public String getAtomWithoutEntries() {
         return baseUrl + "/atom_without_entries";
+    }
+
+    public String getAtomWithoutPublished() {
+        return baseUrl + "/atom_without_published";
+    }
+
+    public String getRssWithoutPublished() {
+        return baseUrl + "/rss_without_published";
     }
 
     public String getRssWithoutEntries() {
