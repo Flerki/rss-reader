@@ -12,7 +12,7 @@ public class FeedBriefInfo {
         this.id = feed.getId();
         this.name = feed.getName();
         this.link = feed.getHref();
-        this.filename = feed.getFeedExtras().getFilename();
+        this.filename = feed.getFilename();
     }
 
     public int getId() {

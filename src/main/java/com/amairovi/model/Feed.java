@@ -15,8 +15,6 @@ public class Feed {
 
     private String href;
 
-    private FeedExtras feedExtras = new FeedExtras();
-
     private FeedProperties feedProperties;
 
     private Map<String, Boolean> entryParameterNameToVisibility = new LinkedHashMap<>();
@@ -57,14 +55,6 @@ public class Feed {
             throw new IllegalArgumentException("No entry with name=" + parameterName);
         }
         entryParameterNameToVisibility.put(parameterName, TRUE);
-    }
-
-    public FeedExtras getFeedExtras() {
-        return feedExtras;
-    }
-
-    public void setFeedExtras(FeedExtras feedExtras) {
-        this.feedExtras = feedExtras;
     }
 
     public String getName() {
@@ -120,23 +110,18 @@ public class Feed {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Feed feed = (Feed) o;
-        return Objects.equals(name, feed.name) &&
+        return id == feed.id &&
+                surveyPeriodInMs == feed.surveyPeriodInMs &&
+                amountOfElementsAtOnce == feed.amountOfElementsAtOnce &&
+                Objects.equals(name, feed.name) &&
                 Objects.equals(href, feed.href) &&
-                Objects.equals(feedExtras, feed.feedExtras);
+                Objects.equals(feedProperties, feed.feedProperties) &&
+                Objects.equals(entryParameterNameToVisibility, feed.entryParameterNameToVisibility) &&
+                Objects.equals(filename, feed.filename);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, href, feedExtras);
-    }
-
-    @Override
-    public String toString() {
-        return "Feed{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", href='" + href + '\'' +
-                ", feedExtras=" + feedExtras +
-                '}';
+        return Objects.hash(id, name, href, feedProperties, entryParameterNameToVisibility, surveyPeriodInMs, filename, amountOfElementsAtOnce);
     }
 }

@@ -80,7 +80,7 @@ class FeedServiceTest {
         void when_feed_and_period_is_ok_then_success(long surveyPeriodInMs) {
             feedService.setFeedSurveyPeriod(feed, surveyPeriodInMs);
 
-            assertEquals(feed.getFeedExtras().getSurveyPeriod(), surveyPeriodInMs);
+            assertEquals(feed.getSurveyPeriodInMs(), surveyPeriodInMs);
 
             verify(feedDao).update(eq(feed));
             verify(scheduleService).scheduleTask(eq(feedId), eq(surveyPeriodInMs), any());
@@ -104,7 +104,7 @@ class FeedServiceTest {
             String filename = "filename";
             feedService.setFeedFilename(feed, filename);
 
-            assertEquals(feed.getFeedExtras().getFilename(), filename);
+            assertEquals(feed.getFilename(), filename);
 
             verify(feedDao).update(eq(feed));
         }
@@ -128,7 +128,7 @@ class FeedServiceTest {
         void when_feed_and_period_is_ok_then_success(int amountOfElementsAtOnce) {
             feedService.setFeedAmountOfElementsAtOnce(feed, amountOfElementsAtOnce);
 
-            assertEquals(feed.getFeedExtras().getAmountOfElementsAtOnce(), amountOfElementsAtOnce);
+            assertEquals(feed.getAmountOfElementsAtOnce(), amountOfElementsAtOnce);
 
             verify(feedDao).update(eq(feed));
         }

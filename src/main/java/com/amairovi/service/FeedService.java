@@ -26,7 +26,7 @@ public class FeedService {
         Feed feed = new Feed();
         feed.setHref(url);
         feed.setName(filename);
-        feed.getFeedExtras().setSurveyPeriod(pollPeriod);
+        feed.setSurveyPeriodInMs(pollPeriod);
 
         feedDao.save(feed);
 
@@ -57,7 +57,7 @@ public class FeedService {
             throw new IllegalArgumentException("Poll period has to be greater than 0");
         }
 
-        feed.getFeedExtras().setSurveyPeriod(pollPeriod);
+        feed.setSurveyPeriodInMs(pollPeriod);
         feedDao.update(feed);
 
         Runnable task = loadTaskFactory.create(feed);
@@ -68,7 +68,7 @@ public class FeedService {
         requireNonNull(feed);
         requireNonNull(filename);
 
-        feed.getFeedExtras().setFilename(filename);
+        feed.setFilename(filename);
         feedDao.update(feed);
     }
 
@@ -78,7 +78,7 @@ public class FeedService {
             throw new IllegalArgumentException("Amount of elements at once has to be greater than 0");
         }
 
-        feed.getFeedExtras().setAmountOfElementsAtOnce(amountOfElementsAtOnce);
+        feed.setAmountOfElementsAtOnce(amountOfElementsAtOnce);
         feedDao.update(feed);
     }
 
@@ -89,8 +89,17 @@ public class FeedService {
         scheduleService.cancelTask(id);
     }
 
+//    public void enablePoll(Feed feed){
+//        requireNonNull(feed);
+//
+//        int id = feed.getId();
+//        scheduleService.scheduleTask(id, );
+//    }
+
     public Feed findById(int id){
         return feedDao.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Feed with id="+ id + "is not found"));
     }
+
+
 }

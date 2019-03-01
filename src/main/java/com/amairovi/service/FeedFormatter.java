@@ -19,7 +19,7 @@ public class FeedFormatter {
 
         return syndFeed.getEntries()
                 .stream()
-                .limit(feed.getFeedExtras().getAmountOfElementsAtOnce())
+                .limit(feed.getAmountOfElementsAtOnce())
                 .map(entry -> entryToString(entry, entryParameterNameToVisibility))
                 .collect(Collectors.joining());
 
