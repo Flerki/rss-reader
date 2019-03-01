@@ -11,15 +11,18 @@ import static java.util.stream.Collectors.toList;
 
 public class FeedProperties {
 
-    private final List<FeedAuthor> authors;
-    private final List<String> categories;
-    private final String title;
-    private final String description;
-    private final String generator;
-    private final String link;
-    private final String language;
-    private final String uri;
-    private final Date publishedDate;
+    private List<FeedAuthor> authors;
+    private List<String> categories;
+    private String title;
+    private String description;
+    private String generator;
+    private String link;
+    private String language;
+    private String uri;
+    private Date publishedDate;
+
+    public FeedProperties() {
+    }
 
     public FeedProperties(SyndFeed syndFeed) {
         authors = syndFeed.getAuthors()
@@ -75,6 +78,42 @@ public class FeedProperties {
 
     public Date getPublishedDate() {
         return publishedDate;
+    }
+
+    public void setAuthors(List<FeedAuthor> authors) {
+        this.authors = authors;
+    }
+
+    public void setCategories(List<String> categories) {
+        this.categories = categories;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setGenerator(String generator) {
+        this.generator = generator;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+
+    public void setPublishedDate(Date publishedDate) {
+        this.publishedDate = publishedDate;
     }
 
     private static class FeedAuthor {
