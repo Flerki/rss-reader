@@ -3,6 +3,7 @@ package com.amairovi.cli;
 import com.amairovi.Core;
 import com.amairovi.cli.command.CreateProcessor;
 import com.amairovi.cli.command.ListProcessor;
+import com.amairovi.cli.formatter.FeedConfigsFormatter;
 
 import java.util.Scanner;
 
@@ -12,10 +13,12 @@ public class Cli {
     private final Core core;
     private final CreateProcessor createProcessor;
     private final ListProcessor listProcessor;
+    private final FeedConfigsFormatter feedConfigsFormatter;
 
     public Cli(Core core) {
         this.core = core;
-        createProcessor = new CreateProcessor(core);
+        feedConfigsFormatter = new FeedConfigsFormatter();
+        createProcessor = new CreateProcessor(core, feedConfigsFormatter);
         listProcessor = new ListProcessor(core);
     }
 

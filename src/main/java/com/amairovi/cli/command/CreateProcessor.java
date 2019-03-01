@@ -2,6 +2,7 @@ package com.amairovi.cli.command;
 
 import com.amairovi.Core;
 import com.amairovi.cli.CommandProcessor;
+import com.amairovi.cli.formatter.FeedConfigsFormatter;
 import com.amairovi.dto.ChannelInfo;
 import com.amairovi.dto.FeedInfo;
 
@@ -9,9 +10,11 @@ import java.util.Scanner;
 
 public class CreateProcessor implements CommandProcessor {
     private final Core core;
+    private final FeedConfigsFormatter feedConfigsFormatter;
 
-    public CreateProcessor(Core core) {
+    public CreateProcessor(Core core, FeedConfigsFormatter feedConfigsFormatter) {
         this.core = core;
+        this.feedConfigsFormatter = feedConfigsFormatter;
     }
 
     @Override
@@ -30,13 +33,7 @@ public class CreateProcessor implements CommandProcessor {
     private void printFeedInfo(int feedId, Scanner scanner) {
         FeedInfo feedFullDescription = core.getFeedFullDescription(feedId);
 
-        System.out.println("Feed configs");
-        System.out.println("id: " + feedFullDescription.getId());
-        System.out.println("name: " + feedFullDescription.getName());
-        System.out.println("link: " + feedFullDescription.getLink());
-        System.out.println("filename: " + feedFullDescription.getFilename());
-        System.out.println("amount of elements polled at once: " + feedFullDescription.getAmountOfElementsAtOnce());
-        System.out.println("poll period: " + feedFullDescription.getPollPeriodInMs());
+        System.out.println(feedConfigsFormatter.format(feedFullDescription));
         System.out.println();
 
         System.out.println("Feed info");
