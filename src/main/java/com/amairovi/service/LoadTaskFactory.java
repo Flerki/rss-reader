@@ -13,17 +13,14 @@ public class LoadTaskFactory {
 
     private final FeedFileService fileService;
     private final FeedLoaderService feedLoaderService;
-    private final FeedFormatter feedFormatter;
     private final FeedStateService feedStateService;
 
 
     public LoadTaskFactory(FeedFileService fileService,
                            FeedLoaderService feedLoaderService,
-                           FeedFormatter feedFormatter,
                            FeedStateService feedStateService) {
         this.fileService = fileService;
         this.feedLoaderService = feedLoaderService;
-        this.feedFormatter = feedFormatter;
         this.feedStateService = feedStateService;
     }
 
@@ -37,7 +34,7 @@ public class LoadTaskFactory {
             SyndFeed syndFeed = feedLoaderService.load(feed);
             feedStateService.update(syndFeed, feed);
 
-            String syndFeedStr = feedFormatter.format(syndFeed, feed);
+            String syndFeedStr = new FeedFormatter(feed).format(syndFeed);
             fileService.writeln(feed.getFilename(), syndFeedStr);
         };
     }

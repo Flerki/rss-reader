@@ -23,7 +23,6 @@ public class Core {
     private final FeedFileService feedFileService;
     private final ScheduleService scheduleService;
     private final FeedService feedService;
-    private final FeedFormatter feedFormatter;
     private final EntryPropertiesService entryPropertiesService;
 
     public Core() {
@@ -32,10 +31,9 @@ public class Core {
 
         feedLoaderService = new FeedLoaderService();
         feedFileService = new FeedFileService();
-        feedFormatter = new FeedFormatter();
         entryPropertiesService = new EntryPropertiesService();
         FeedStateService feedStateService = new FeedStateService(entryPropertiesService);
-        LoadTaskFactory loadTaskFactory = new LoadTaskFactory(feedFileService, feedLoaderService, feedFormatter, feedStateService);
+        LoadTaskFactory loadTaskFactory = new LoadTaskFactory(feedFileService, feedLoaderService, feedStateService);
 
         ScheduledExecutorService scheduledExecutorService = newSingleThreadScheduledExecutor();
         scheduleService = new ScheduleService(scheduledExecutorService);

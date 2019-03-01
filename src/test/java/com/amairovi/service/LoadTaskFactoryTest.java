@@ -15,15 +15,13 @@ class LoadTaskFactoryTest {
     private LoadTaskFactory loadTaskFactory;
     private FeedFileService feedFileService;
     private FeedLoaderService feedLoaderService;
-    private FeedFormatter feedFormatter;
 
     @BeforeEach
     void setup() {
         feedFileService = mock(FeedFileService.class);
         feedLoaderService = mock(FeedLoaderService.class);
-        feedFormatter = mock(FeedFormatter.class);
         FeedStateService feedStateService = mock(FeedStateService.class);
-        loadTaskFactory = new LoadTaskFactory(feedFileService, feedLoaderService, feedFormatter, feedStateService);
+        loadTaskFactory = new LoadTaskFactory(feedFileService, feedLoaderService, feedStateService);
     }
 
     @Test
@@ -36,7 +34,6 @@ class LoadTaskFactoryTest {
 
         when(syndFeed.toString()).thenReturn(syndFeedStr);
         when(feedLoaderService.load(eq(feed))).thenReturn(syndFeed);
-        when(feedFormatter.format(eq(syndFeed), eq(feed))).thenReturn(syndFeedStr);
 
         Runnable runnable = loadTaskFactory.create(feed);
         runnable.run();
