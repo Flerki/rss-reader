@@ -10,7 +10,7 @@ import static java.lang.System.lineSeparator;
 import static java.util.stream.Collectors.joining;
 
 public class ListProcessor implements CommandProcessor {
-    private final static String PATTERN = "id: %d%n " +
+    private final static String PATTERN = "id: %d%n" +
             "name: %s%n" +
             "link: %s%n" +
             "filename: %s";
