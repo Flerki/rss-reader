@@ -37,12 +37,6 @@ public class Feed {
         return entryParameterNameToVisibility;
     }
 
-    public void addParameter(String parameterName) {
-        if (!entryParameterNameToVisibility.containsKey(parameterName)) {
-            entryParameterNameToVisibility.put(parameterName, TRUE);
-        }
-    }
-
     public void hideParameter(String parameterName) {
         if (!entryParameterNameToVisibility.containsKey(parameterName)) {
             throw new IllegalArgumentException("No entry with name=" + parameterName);

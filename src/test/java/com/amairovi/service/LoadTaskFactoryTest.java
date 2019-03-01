@@ -24,8 +24,8 @@ class LoadTaskFactoryTest {
         feedFileService = mock(FeedFileService.class);
         feedLoaderService = mock(FeedLoaderService.class);
         feedFormatter = mock(FeedFormatter.class);
-
-        loadTaskFactory = new LoadTaskFactory(feedFileService, feedLoaderService, feedFormatter);
+        EntryPropertiesService entryPropertiesService = new EntryPropertiesService();
+        loadTaskFactory = new LoadTaskFactory(feedFileService, feedLoaderService, feedFormatter, entryPropertiesService);
     }
 
     @Test

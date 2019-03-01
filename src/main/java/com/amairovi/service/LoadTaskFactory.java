@@ -18,11 +18,16 @@ public class LoadTaskFactory {
     private final FeedFileService fileService;
     private final FeedLoaderService feedLoaderService;
     private final FeedFormatter feedFormatter;
+    private final EntryPropertiesService entryPropertiesService;
 
-    public LoadTaskFactory(FeedFileService fileService, FeedLoaderService feedLoaderService, FeedFormatter feedFormatter) {
+    public LoadTaskFactory(FeedFileService fileService,
+                           FeedLoaderService feedLoaderService,
+                           FeedFormatter feedFormatter,
+                           EntryPropertiesService entryPropertiesService) {
         this.fileService = fileService;
         this.feedLoaderService = feedLoaderService;
         this.feedFormatter = feedFormatter;
+        this.entryPropertiesService = entryPropertiesService;
     }
 
     public Runnable create(Feed feed) {
@@ -59,24 +64,24 @@ public class LoadTaskFactory {
             checkEntryParameterPresenseAndAddIfNecessary("uri", entry.getUri(), feed);
 
             if (!entry.getContents().isEmpty()){
-                feed.addParameter("content");
+                entryPropertiesService.addParameter(feed,"content");
             }
 
             if (!entry.getCategories().isEmpty()){
-                feed.addParameter("categories");
+                entryPropertiesService.addParameter(feed,"categories");
             }
 
             entry.getForeignMarkup()
                     .stream()
                     .map(Element::getName)
-                    .forEach(feed::addParameter);
+                    .forEach(parameterName -> entryPropertiesService.addParameter(feed, parameterName));
 
         }
     }
 
     private void checkEntryParameterPresenseAndAddIfNecessary(String name, Object param, Feed feed) {
         if (param != null) {
-            feed.addParameter(name);
+            entryPropertiesService.addParameter(feed, name);
         }
     }
 }
