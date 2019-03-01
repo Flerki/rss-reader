@@ -2,22 +2,21 @@ package com.amairovi.cli;
 
 import com.amairovi.Core;
 import com.amairovi.cli.command.CreateProcessor;
-import com.amairovi.dto.FeedBriefInfo;
+import com.amairovi.cli.command.ListProcessor;
 
 import java.util.Scanner;
-import java.util.stream.Collectors;
-
-import static java.lang.System.lineSeparator;
 
 public class Cli {
 
 
     private final Core core;
     private final CreateProcessor createProcessor;
+    private final ListProcessor listProcessor;
 
     public Cli(Core core) {
         this.core = core;
         createProcessor = new CreateProcessor(core);
+        listProcessor = new ListProcessor(core);
     }
 
     public static void main(String[] args) {
@@ -41,10 +40,8 @@ public class Cli {
             String result;
             switch (command) {
                 case "list":
-                    result = core.list()
-                            .stream()
-                            .map(this::convertBriefFeedInfoToString)
-                            .collect(Collectors.joining(lineSeparator() + lineSeparator()));
+                    listProcessor.process(params);
+                    result = "success";
                     break;
 
                 case "create":
@@ -97,14 +94,5 @@ public class Cli {
 
     private int toId(String str) {
         return Integer.valueOf(str);
-    }
-
-    private String convertBriefFeedInfoToString(FeedBriefInfo feedBriefInfo) {
-        return String.format(
-                "id: %d%n" +
-                        "name: %s%n" +
-                        "link: %s%n" +
-                        "filename: %s", feedBriefInfo.getId(), feedBriefInfo.getName(), feedBriefInfo.getLink(), feedBriefInfo.getFilename());
-
     }
 }
