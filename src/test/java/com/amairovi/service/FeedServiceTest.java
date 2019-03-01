@@ -82,7 +82,7 @@ class FeedServiceTest {
         void when_feed_and_period_is_ok_then_success(long surveyPeriodInMs) {
             feedService.setFeedSurveyPeriod(feed, surveyPeriodInMs);
 
-            assertEquals(feed.getSurveyPeriodInMs(), surveyPeriodInMs);
+            assertEquals(feed.getPollPeriodInMs(), surveyPeriodInMs);
 
             verify(feedDao).update(eq(feed));
             verify(scheduleService).scheduleTask(eq(feedId), eq(surveyPeriodInMs), any());

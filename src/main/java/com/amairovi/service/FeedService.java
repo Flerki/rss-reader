@@ -18,9 +18,9 @@ public class FeedService {
         this.entryPropertiesService = entryPropertiesService;
     }
 
-    public void createFeed(String url, long pollPeriod){
+    public void createFeed(String url, long pollPeriodInMs){
         requireNonNull(url);
-        if (pollPeriod < 1){
+        if (pollPeriodInMs < 1){
             throw new IllegalArgumentException("Poll period has to be greater than 0");
         }
 
@@ -28,14 +28,14 @@ public class FeedService {
         Feed feed = new Feed();
         feed.setHref(url);
         feed.setName(filename);
-        feed.setSurveyPeriodInMs(pollPeriod);
+        feed.setPollPeriodInMs(pollPeriodInMs);
 
         feedDao.save(feed);
 
         int id = feed.getId();
 
         Runnable task = loadTaskFactory.create(feed);
-        scheduleService.scheduleTask(id, pollPeriod, task);
+        scheduleService.scheduleTask(id, pollPeriodInMs, task);
     }
 
     public void hideProperty(Feed feed, String propertyName){
@@ -46,18 +46,18 @@ public class FeedService {
         entryPropertiesService.showParameter(feed, propertyName);
     }
 
-    public void setFeedSurveyPeriod(Feed feed, long pollPeriod){
+    public void setFeedSurveyPeriod(Feed feed, long pollPeriodInMs){
         requireNonNull(feed);
 
-        if (pollPeriod < 1){
+        if (pollPeriodInMs < 1){
             throw new IllegalArgumentException("Poll period has to be greater than 0");
         }
 
-        feed.setSurveyPeriodInMs(pollPeriod);
+        feed.setPollPeriodInMs(pollPeriodInMs);
         feedDao.update(feed);
 
         Runnable task = loadTaskFactory.create(feed);
-        scheduleService.scheduleTask(feed.getId(), pollPeriod, task);
+        scheduleService.scheduleTask(feed.getId(), pollPeriodInMs, task);
     }
 
     public void setFeedFilename(Feed feed, String filename){

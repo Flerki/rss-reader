@@ -16,7 +16,7 @@ public class Feed {
 
     private Map<String, Boolean> entryParameterNameToVisibility = new LinkedHashMap<>();
 
-    private long surveyPeriodInMs;
+    private long pollPeriodInMs;
 
     private String filename;
 
@@ -58,12 +58,12 @@ public class Feed {
         this.id = id;
     }
 
-    public long getSurveyPeriodInMs() {
-        return surveyPeriodInMs;
+    public long getPollPeriodInMs() {
+        return pollPeriodInMs;
     }
 
-    public void setSurveyPeriodInMs(long surveyPeriodInMs) {
-        this.surveyPeriodInMs = surveyPeriodInMs;
+    public void setPollPeriodInMs(long pollPeriodInMs) {
+        this.pollPeriodInMs = pollPeriodInMs;
     }
 
     public String getFilename() {
@@ -88,7 +88,7 @@ public class Feed {
         if (o == null || getClass() != o.getClass()) return false;
         Feed feed = (Feed) o;
         return id == feed.id &&
-                surveyPeriodInMs == feed.surveyPeriodInMs &&
+                pollPeriodInMs == feed.pollPeriodInMs &&
                 amountOfElementsAtOnce == feed.amountOfElementsAtOnce &&
                 Objects.equals(name, feed.name) &&
                 Objects.equals(href, feed.href) &&
@@ -99,6 +99,6 @@ public class Feed {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, href, feedProperties, entryParameterNameToVisibility, surveyPeriodInMs, filename, amountOfElementsAtOnce);
+        return Objects.hash(id, name, href, feedProperties, entryParameterNameToVisibility, pollPeriodInMs, filename, amountOfElementsAtOnce);
     }
 }

@@ -79,14 +79,14 @@ class FeedPersistenceStoreTest {
         feed.setHref("href1");
         feed.setAmountOfElementsAtOnce(10);
         feed.setFilename("filename1");
-        feed.setSurveyPeriodInMs(1);
+        feed.setPollPeriodInMs(1);
 
         Feed feed2 = new Feed();
         feed2.setName("feed2");
         feed2.setHref("href2");
         feed2.setAmountOfElementsAtOnce(20);
         feed2.setFilename("filename2");
-        feed2.setSurveyPeriodInMs(1);
+        feed2.setPollPeriodInMs(1);
 
         return Arrays.asList(feed, feed2);
     }
