@@ -25,10 +25,10 @@ public class Cli {
 
     public void start() {
 
-        Scanner input = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            String commandLine = input.nextLine().trim();
+            String commandLine = scanner.nextLine().trim();
             if (commandLine.equals("stop")) {
                 break;
             }
@@ -40,12 +40,12 @@ public class Cli {
             String result;
             switch (command) {
                 case "list":
-                    listProcessor.process(params);
+                    listProcessor.process(params, scanner);
                     result = "success";
                     break;
 
                 case "create":
-                    createProcessor.process(params);
+                    createProcessor.process(params, scanner);
                     result = "success";
                     break;
                 case "turn-on":
