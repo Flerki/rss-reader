@@ -1,8 +1,8 @@
 package com.amairovi.service;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -14,7 +14,7 @@ public class ScheduleService {
     private final ScheduledExecutorService executor;
 
     public ScheduleService(ScheduledExecutorService executor) {
-        this.idToTask = new HashMap<>();
+        this.idToTask = new ConcurrentHashMap<>();
         this.executor = executor;
     }
 
