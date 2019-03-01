@@ -2,7 +2,6 @@ package com.amairovi.model;
 
 import com.rometools.rome.feed.synd.SyndCategory;
 import com.rometools.rome.feed.synd.SyndFeed;
-import com.rometools.rome.feed.synd.SyndPerson;
 
 import java.util.Date;
 import java.util.List;
@@ -114,29 +113,5 @@ public class FeedProperties {
 
     public void setPublishedDate(Date publishedDate) {
         this.publishedDate = publishedDate;
-    }
-
-    private static class FeedAuthor {
-        private final String email;
-        private final String name;
-        private final String uri;
-
-        public FeedAuthor(SyndPerson syndPerson) {
-            email = syndPerson.getEmail();
-            name = syndPerson.getName();
-            uri = syndPerson.getUri();
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getUri() {
-            return uri;
-        }
     }
 }
