@@ -30,7 +30,7 @@ public class FeedService {
         this.feedStateService = feedStateService;
     }
 
-    public void createFeed(String url){
+    public int createFeed(String url){
         requireNonNull(url);
 
         SyndFeed syndFeed = feedLoaderService.load(url);
@@ -43,8 +43,14 @@ public class FeedService {
         }
 
         Feed feed = new Feed();
+        feed.setName(url);
+        String filename = url.replaceAll("[^A-Za-z0-9]", "_");
+        feed.setFilename(filename);
+        feed.setHref(url);
+
         feedStateService.update(syndFeed, feed);
         feedDao.save(feed);
+        return feed.getId();
     }
 
     public void createFeed(String url, long pollPeriodInMs){
