@@ -3,6 +3,7 @@ package com.amairovi;
 import com.amairovi.dao.FeedDao;
 import com.amairovi.dao.FeedPersistenceStore;
 import com.amairovi.dto.FeedBriefInfo;
+import com.amairovi.dto.FeedInfo;
 import com.amairovi.model.Feed;
 import com.amairovi.service.*;
 
@@ -46,8 +47,8 @@ public class Core {
         feedService.createFeed(url, pollPeriod);
     }
 
-    public void createFeed(String url) {
-        feedService.createFeed(url);
+    public int createFeed(String url) {
+        return feedService.createFeed(url);
     }
 
     public void setFeedSurveyPeriod(int id, long pollPeriod) {
@@ -103,5 +104,10 @@ public class Core {
     public void redirectFeedTo(int id, String filename) {
         throw new RuntimeException("Not implemented");
 
+    }
+
+    public FeedInfo getFeedFullDescription(int feedId) {
+        Feed feed = feedService.findById(feedId);
+        return new FeedInfo(feed);
     }
 }
