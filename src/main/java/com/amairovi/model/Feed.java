@@ -4,9 +4,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.TRUE;
-
 public class Feed {
 
     private int id;
@@ -35,13 +32,6 @@ public class Feed {
 
     public Map<String, Boolean> getEntryParameterNameToVisibility() {
         return entryParameterNameToVisibility;
-    }
-
-    public void showParameter(String parameterName) {
-        if (!entryParameterNameToVisibility.containsKey(parameterName)) {
-            throw new IllegalArgumentException("No entry with name=" + parameterName);
-        }
-        entryParameterNameToVisibility.put(parameterName, TRUE);
     }
 
     public String getName() {

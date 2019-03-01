@@ -49,7 +49,7 @@ public class FeedService {
         if (!feed.getEntryParameterNameToVisibility().containsKey(propertyName)){
             throw new IllegalArgumentException("There is no property with name=" + propertyName + " for feed with id=" + feed.getId());
         }
-        feed.showParameter(propertyName);
+        entryPropertiesService.showParameter(feed, propertyName);
     }
 
     public void setFeedSurveyPeriod(Feed feed, long pollPeriod){
