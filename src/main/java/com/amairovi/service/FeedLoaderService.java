@@ -1,5 +1,6 @@
 package com.amairovi.service;
 
+import com.amairovi.exception.InvalidLinkFormatException;
 import com.amairovi.model.Feed;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.FeedException;
@@ -28,9 +29,8 @@ public class FeedLoaderService {
             return Optional.of(new URL(href));
         } catch (MalformedURLException e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
-            e.printStackTrace();
+            throw new InvalidLinkFormatException(e);
         }
-        return Optional.empty();
     }
 
     private SyndFeed load(URL url) {

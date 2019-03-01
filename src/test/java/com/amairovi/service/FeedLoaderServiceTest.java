@@ -1,5 +1,6 @@
 package com.amairovi.service;
 
+import com.amairovi.exception.InvalidLinkFormatException;
 import com.amairovi.model.Feed;
 import com.amairovi.utility.FeedStubServer;
 import com.amairovi.utility.Main;
@@ -40,13 +41,11 @@ class FeedLoaderServiceTest {
     @Nested
     class Load {
         @Test
-        void when_malformed_url_then_return_empty() {
+        void when_malformed_url_then_throw_error() {
             Feed feed = new Feed();
             feed.setHref("href");
 
-            Optional<SyndFeed> syndFeed = feedLoaderService.load(feed);
-
-            assertFalse(syndFeed.isPresent());
+            assertThrows(InvalidLinkFormatException.class, () -> feedLoaderService.load(feed));
         }
 
         @Test
