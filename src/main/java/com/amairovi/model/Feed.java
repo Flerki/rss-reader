@@ -34,6 +34,10 @@ public class Feed {
         return entryParameterNameToVisibility;
     }
 
+    public void setEntryParameterNameToVisibility(Map<String, Boolean> entryParameterNameToVisibility) {
+        this.entryParameterNameToVisibility = entryParameterNameToVisibility;
+    }
+
     public String getName() {
         return name;
     }
