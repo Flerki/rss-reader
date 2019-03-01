@@ -21,6 +21,12 @@ public class Feed {
 
     private Map<String, Boolean> entryParameterNameToVisibility = new LinkedHashMap<>();
 
+    private long surveyPeriodInMs;
+
+    private String filename;
+
+    private int amountOfElementsAtOnce = 1;
+
     public FeedProperties getFeedProperties() {
         return feedProperties;
     }
@@ -33,21 +39,21 @@ public class Feed {
         return entryParameterNameToVisibility;
     }
 
-    public void addParameter(String parameterName){
-        if (!entryParameterNameToVisibility.containsKey(parameterName)){
+    public void addParameter(String parameterName) {
+        if (!entryParameterNameToVisibility.containsKey(parameterName)) {
             entryParameterNameToVisibility.put(parameterName, TRUE);
         }
     }
 
-    public void hideParameter(String parameterName){
-        if (!entryParameterNameToVisibility.containsKey(parameterName)){
+    public void hideParameter(String parameterName) {
+        if (!entryParameterNameToVisibility.containsKey(parameterName)) {
             throw new IllegalArgumentException("No entry with name=" + parameterName);
         }
         entryParameterNameToVisibility.put(parameterName, FALSE);
     }
 
-    public void showParameter(String parameterName){
-        if (!entryParameterNameToVisibility.containsKey(parameterName)){
+    public void showParameter(String parameterName) {
+        if (!entryParameterNameToVisibility.containsKey(parameterName)) {
             throw new IllegalArgumentException("No entry with name=" + parameterName);
         }
         entryParameterNameToVisibility.put(parameterName, TRUE);
@@ -83,6 +89,30 @@ public class Feed {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public long getSurveyPeriodInMs() {
+        return surveyPeriodInMs;
+    }
+
+    public void setSurveyPeriodInMs(long surveyPeriodInMs) {
+        this.surveyPeriodInMs = surveyPeriodInMs;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public int getAmountOfElementsAtOnce() {
+        return amountOfElementsAtOnce;
+    }
+
+    public void setAmountOfElementsAtOnce(int amountOfElementsAtOnce) {
+        this.amountOfElementsAtOnce = amountOfElementsAtOnce;
     }
 
     @Override
