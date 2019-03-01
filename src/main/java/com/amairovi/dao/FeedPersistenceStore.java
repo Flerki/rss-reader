@@ -1,6 +1,7 @@
 package com.amairovi.dao;
 
 import com.amairovi.model.Feed;
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -13,6 +14,7 @@ import java.util.logging.Logger;
 
 import static java.nio.file.Files.newInputStream;
 import static java.nio.file.Files.newOutputStream;
+import static java.util.Objects.isNull;
 
 public class FeedPersistenceStore {
     private static final Logger LOGGER = Logger.getLogger(FeedPersistenceStore.class.getName());
@@ -51,4 +53,31 @@ public class FeedPersistenceStore {
             e.printStackTrace();
         }
     }
+
+    public List<Feed> loadFromYaml() {
+        try (InputStream input = newInputStream(filepath)) {
+            Yaml yaml = new Yaml();
+            List<Feed> loaded = yaml.load(input);
+            return isNull(loaded) ? new ArrayList<>() : loaded;
+        } catch (IOException e) {
+            e.printStackTrace();
+            String message = "Exception occurred during load of the file with feeds. " +
+                    "Highly likely error related to inconsistent state of file or its absence. " +
+                    "So file with feeds is ignored. " +
+                    "Message: " + e.getMessage();
+            LOGGER.log(Level.SEVERE, message);
+        }
+        return new ArrayList<>();
+    }
+
+    public synchronized void storeToYml(List<Feed> feeds) {
+        try (OutputStream outStream = newOutputStream(filepath, StandardOpenOption.CREATE);
+             OutputStreamWriter writer = new OutputStreamWriter(outStream)) {
+            Yaml yaml = new Yaml();
+            yaml.dump(feeds, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

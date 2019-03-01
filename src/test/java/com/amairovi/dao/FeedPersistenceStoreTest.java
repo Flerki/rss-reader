@@ -4,20 +4,29 @@ import com.amairovi.model.Feed;
 import com.amairovi.model.FeedExtras;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.yaml.snakeyaml.Yaml;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Period;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static java.nio.file.Files.createFile;
+import static java.nio.file.Files.readAllBytes;
 import static java.util.Arrays.asList;
+import static java.util.Arrays.sort;
 import static java.util.Collections.emptyList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.empty;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class FeedPersistenceStoreTest {
@@ -63,6 +72,48 @@ class FeedPersistenceStoreTest {
         List<Feed> actual = feedPersistenceStore.load();
 
         assertThat(actual, containsInAnyOrder(feeds.toArray()));
+    }
+
+    @Test
+    void when_load_from_empty_file_then_load_empty_list() {
+        String absolutePathToFile = generateAbsolutePathToFile("empty.yml");
+        FeedPersistenceStore store = new FeedPersistenceStore(absolutePathToFile);
+
+        List<Feed> feeds = store.loadFromYaml();
+
+        assertThat(feeds, empty());
+    }
+
+    @Test
+    void when_load_from_file_not_empty_then_load_not_empty_list() {
+        String absolutePathToFile = generateAbsolutePathToFile("config1.yml");
+        FeedPersistenceStore store = new FeedPersistenceStore(absolutePathToFile);
+
+        List<Feed> feeds = store.loadFromYaml();
+
+        assertThat(feeds, containsInAnyOrder(createFeeds().toArray()));
+    }
+
+    @Test
+    void when_store_empty_list_then_empty_list_is_stored() {
+        feedPersistenceStore.storeToYml(emptyList());
+
+        List<Feed> feeds = feedPersistenceStore.load();
+        assertThat(feeds, empty());
+    }
+
+    @Test
+    void when_store_not_empty_list_then_according_list_is_stored() {
+        feedPersistenceStore.storeToYml(createFeeds());
+
+        List<Feed> feeds = feedPersistenceStore.loadFromYaml();
+        assertThat(feeds, containsInAnyOrder(createFeeds().toArray()));
+    }
+
+    private String generateAbsolutePathToFile(String filename) {
+        URL resource = FeedPersistenceStoreTest.class.getResource(filename);
+        File file = new File( resource.getFile());
+        return file.getAbsolutePath();
     }
 
     private List<Feed> createFeeds() {
