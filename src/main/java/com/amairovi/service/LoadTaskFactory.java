@@ -37,15 +37,11 @@ public class LoadTaskFactory {
         return () -> {
             LOGGER.log(Level.INFO, () -> "run load task for feed=" + feed);
 
-            Optional<SyndFeed> syndFeedOptional = feedLoaderService.load(feed);
-            if (syndFeedOptional.isPresent()) {
-                SyndFeed syndFeed = syndFeedOptional.get();
+            SyndFeed syndFeed = feedLoaderService.load(feed);
+            updateFeed(syndFeed, feed);
 
-                updateFeed(syndFeed, feed);
-
-                String syndFeedStr = feedFormatter.format(syndFeed, feed);;
-                fileService.writeln(feed.getFilename(), syndFeedStr);
-            }
+            String syndFeedStr = feedFormatter.format(syndFeed, feed);
+            fileService.writeln(feed.getFilename(), syndFeedStr);
         };
     }
 
@@ -63,12 +59,12 @@ public class LoadTaskFactory {
             checkEntryParameterPresenseAndAddIfNecessary("updatedDate", entry.getUpdatedDate(), feed);
             checkEntryParameterPresenseAndAddIfNecessary("uri", entry.getUri(), feed);
 
-            if (!entry.getContents().isEmpty()){
-                entryPropertiesService.addParameter(feed,"content");
+            if (!entry.getContents().isEmpty()) {
+                entryPropertiesService.addParameter(feed, "content");
             }
 
-            if (!entry.getCategories().isEmpty()){
-                entryPropertiesService.addParameter(feed,"categories");
+            if (!entry.getCategories().isEmpty()) {
+                entryPropertiesService.addParameter(feed, "categories");
             }
 
             entry.getForeignMarkup()

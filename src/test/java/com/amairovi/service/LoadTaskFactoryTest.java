@@ -5,8 +5,6 @@ import com.rometools.rome.feed.synd.SyndFeed;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
@@ -37,7 +35,7 @@ class LoadTaskFactoryTest {
         String syndFeedStr = "syndFeed";
 
         when(syndFeed.toString()).thenReturn(syndFeedStr);
-        when(feedLoaderService.load(eq(feed))).thenReturn(of(syndFeed));
+        when(feedLoaderService.load(eq(feed))).thenReturn(syndFeed);
         when(feedFormatter.format(eq(syndFeed), eq(feed))).thenReturn(syndFeedStr);
 
         Runnable runnable = loadTaskFactory.create(feed);
@@ -45,18 +43,5 @@ class LoadTaskFactoryTest {
 
         verify(feedLoaderService).load(eq(feed));
         verify(feedFileService).writeln(eq(feed.getFilename()), eq(syndFeedStr));
-    }
-
-    @Test
-    void when_feed_is_nullable_then_do_nothing() {
-        Feed feed = new Feed();
-
-        when(feedLoaderService.load(eq(feed))).thenReturn(empty());
-
-        Runnable runnable = loadTaskFactory.create(feed);
-        runnable.run();
-
-        verify(feedLoaderService).load(eq(feed));
-        verifyZeroInteractions(feedFileService);
     }
 }

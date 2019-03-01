@@ -1,5 +1,6 @@
 package com.amairovi.service;
 
+import com.amairovi.exception.FeedProcessingException;
 import com.amairovi.exception.InvalidLinkFormatException;
 import com.amairovi.model.Feed;
 import com.amairovi.utility.FeedStubServer;
@@ -53,9 +54,7 @@ class FeedLoaderServiceTest {
             Feed feed = new Feed();
             feed.setHref("http://some-made-up-url");
 
-            Optional<SyndFeed> syndFeed = feedLoaderService.load(feed);
-
-            assertFalse(syndFeed.isPresent());
+            assertThrows(FeedProcessingException.class, () -> feedLoaderService.load(feed));
         }
 
         @Test
@@ -63,11 +62,10 @@ class FeedLoaderServiceTest {
             Feed feed = new Feed();
             feed.setHref(feedStubServer.getAtomUrl());
 
-            Optional<SyndFeed> result = feedLoaderService.load(feed);
+            SyndFeed result = feedLoaderService.load(feed);
 
             SyndFeed expected = loadFeedFromFile("atom.xml");
-            assertTrue(result.isPresent());
-            assertEquals(expected, result.get());
+            assertEquals(expected, result);
         }
 
         @Test
@@ -75,11 +73,10 @@ class FeedLoaderServiceTest {
             Feed feed = new Feed();
             feed.setHref(feedStubServer.getRssUrl());
 
-            Optional<SyndFeed> result = feedLoaderService.load(feed);
+            SyndFeed result = feedLoaderService.load(feed);
 
             SyndFeed expected = loadFeedFromFile("rss.xml");
-            assertTrue(result.isPresent());
-            assertEquals(expected, result.get());
+            assertEquals(expected, result);
         }
 
         private SyndFeed loadFeedFromFile(String name) throws IOException, FeedException {
