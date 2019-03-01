@@ -1,6 +1,7 @@
 package com.amairovi.cli;
 
 import com.amairovi.Core;
+import com.amairovi.cli.command.CreateProcessor;
 import com.amairovi.dto.FeedBriefInfo;
 
 import java.util.Scanner;
@@ -12,13 +13,15 @@ public class Cli {
 
 
     private final Core core;
+    private final CreateProcessor createProcessor;
 
     public Cli(Core core) {
         this.core = core;
+        createProcessor = new CreateProcessor(core);
     }
 
     public static void main(String[] args) {
-        new Cli(null).start();
+        new Cli(new Core()).start();
     }
 
     public void start() {
@@ -45,8 +48,7 @@ public class Cli {
                     break;
 
                 case "create":
-                    String url = params[1];
-                    core.createFeed(url);
+                    createProcessor.process(params);
                     result = "success";
                     break;
                 case "turn-on":
