@@ -26,7 +26,7 @@ public class Core {
     private final EntryPropertiesService entryPropertiesService;
 
     public Core() {
-        feedPersistenceStore = new FeedPersistenceStore("data");
+        feedPersistenceStore = new FeedPersistenceStore("feed_config.yml");
         feedDao = new FeedDao(feedPersistenceStore);
 
         feedLoaderService = new FeedLoaderService();
