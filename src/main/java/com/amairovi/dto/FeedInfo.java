@@ -2,6 +2,9 @@ package com.amairovi.dto;
 
 import com.amairovi.model.Feed;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class FeedInfo {
     private final int id;
 
@@ -15,6 +18,10 @@ public class FeedInfo {
 
     private final int amountOfElementsAtOnce;
 
+    private final ChannelInfo channelInfo;
+
+    private final Map<String, Boolean> entryParameterNameToVisibility;
+
     public FeedInfo(Feed feed) {
         id = feed.getId();
         name = feed.getName();
@@ -22,6 +29,9 @@ public class FeedInfo {
         pollPeriodInMs = feed.getPollPeriodInMs();
         filename = feed.getFilename();
         amountOfElementsAtOnce = feed.getAmountOfElementsAtOnce();
+
+        channelInfo = new ChannelInfo(feed.getFeedProperties());
+        entryParameterNameToVisibility = new LinkedHashMap<>(feed.getEntryParameterNameToVisibility());
     }
 
     public int getId() {
@@ -46,5 +56,13 @@ public class FeedInfo {
 
     public int getAmountOfElementsAtOnce() {
         return amountOfElementsAtOnce;
+    }
+
+    public ChannelInfo getChannelInfo() {
+        return channelInfo;
+    }
+
+    public Map<String, Boolean> getEntryParameterNameToVisibility() {
+        return entryParameterNameToVisibility;
     }
 }
