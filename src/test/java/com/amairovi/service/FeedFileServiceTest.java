@@ -1,6 +1,5 @@
 package com.amairovi.service;
 
-import com.amairovi.model.FeedFile;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
@@ -24,19 +23,14 @@ class FeedFileServiceTest {
 
     private static final String FILENAME = "feed_filename";
 
-    private FeedFile feedFile;
-
     private FeedFileService feedFileService;
 
     private Consumer<String> writeToFeedFile;
 
     @BeforeEach
     void setup() {
-        feedFile = new FeedFile();
-        feedFile.setFilename(FILENAME);
-
         feedFileService = new FeedFileService();
-        writeToFeedFile = data -> feedFileService.writeln(feedFile, data);
+        writeToFeedFile = data -> feedFileService.writeln(FILENAME, data);
     }
 
     @AfterEach

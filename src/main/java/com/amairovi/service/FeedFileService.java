@@ -1,7 +1,5 @@
 package com.amairovi.service;
 
-import com.amairovi.model.FeedFile;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.*;
@@ -14,8 +12,7 @@ public class FeedFileService {
 
     private static final Logger LOGGER = Logger.getLogger(FeedFileService.class.getName());
 
-    public void writeln(FeedFile feedFile, String data) {
-        String filename = feedFile.getFilename();
+    public void writeln(String filename, String data) {
         Path pathToFile = Paths.get(filename);
 
         try {

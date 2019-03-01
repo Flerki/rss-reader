@@ -1,7 +1,6 @@
 package com.amairovi.service;
 
 import com.amairovi.model.Feed;
-import com.amairovi.model.FeedFile;
 import com.amairovi.model.FeedProperties;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
@@ -30,9 +29,6 @@ public class LoadTaskFactory {
         LOGGER.log(Level.INFO, "create()");
         requireNonNull(feed);
 
-        FeedFile feedFile = new FeedFile();
-        feedFile.setFilename(feed.getName());
-
         return () -> {
             LOGGER.log(Level.INFO, () -> "run load task for feed=" + feed);
 
@@ -43,7 +39,7 @@ public class LoadTaskFactory {
                 updateFeed(syndFeed, feed);
 
                 String syndFeedStr = feedFormatter.format(syndFeed, feed);;
-                fileService.writeln(feedFile, syndFeedStr);
+                fileService.writeln(feed.getFilename(), syndFeedStr);
             }
         };
     }
