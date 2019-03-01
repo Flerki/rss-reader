@@ -22,6 +22,8 @@ public class FeedInfo {
 
     private final Map<String, Boolean> entryParameterNameToVisibility;
 
+    private final boolean isPolled;
+
     public FeedInfo(Feed feed) {
         id = feed.getId();
         name = feed.getName();
@@ -29,6 +31,7 @@ public class FeedInfo {
         pollPeriodInMs = feed.getPollPeriodInMs();
         filename = feed.getFilename();
         amountOfElementsAtOnce = feed.getAmountOfElementsAtOnce();
+        isPolled = feed.isPolled();
 
         channelInfo = new ChannelInfo(feed.getFeedProperties());
         entryParameterNameToVisibility = new LinkedHashMap<>(feed.getEntryParameterNameToVisibility());
@@ -64,5 +67,9 @@ public class FeedInfo {
 
     public Map<String, Boolean> getEntryParameterNameToVisibility() {
         return entryParameterNameToVisibility;
+    }
+
+    public boolean isPolled() {
+        return isPolled;
     }
 }

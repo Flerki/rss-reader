@@ -10,7 +10,8 @@ public class FeedConfigsFormatter {
                     "link: %s%n" +
                     "filename: %s%n" +
                     "amount of elements polled at once: %s%n" +
-                    "poll period in ms: %s%n";
+                    "poll period in ms: %s%n" +
+                    "polling is enabled: %b%n";
 
     public String format(FeedInfo feedInfo) {
         return String.format(PATTERN,
@@ -19,7 +20,9 @@ public class FeedConfigsFormatter {
                 ifNullThenUsePlaceholder(feedInfo.getLink()),
                 ifNullThenUsePlaceholder(feedInfo.getFilename()),
                 ifNullThenUsePlaceholder(feedInfo.getAmountOfElementsAtOnce()),
-                ifNullThenUsePlaceholder(feedInfo.getPollPeriodInMs())
+                ifNullThenUsePlaceholder(feedInfo.getPollPeriodInMs()),
+                feedInfo.isPolled()
+
         );
     }
 

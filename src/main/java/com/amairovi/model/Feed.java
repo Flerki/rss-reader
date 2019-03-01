@@ -22,6 +22,8 @@ public class Feed {
 
     private int amountOfElementsAtOnce = 1;
 
+    private boolean isPolled;
+
     public FeedProperties getFeedProperties() {
         return feedProperties;
     }
@@ -84,6 +86,14 @@ public class Feed {
 
     public void setAmountOfElementsAtOnce(int amountOfElementsAtOnce) {
         this.amountOfElementsAtOnce = amountOfElementsAtOnce;
+    }
+
+    public boolean isPolled() {
+        return isPolled;
+    }
+
+    public void setPolled(boolean polled) {
+        isPolled = polled;
     }
 
     @Override
