@@ -19,14 +19,18 @@ public class FeedLoaderService {
 
     public SyndFeed load(Feed feed) {
         LOGGER.log(Level.INFO, () -> "load for feed=" + feed);
-        URL url = retrieveUrl(feed);
+        return load(feed.getHref());
+    }
+
+    public SyndFeed load(String urlStr) {
+        LOGGER.log(Level.INFO, () -> "load by url=" + urlStr);
+        URL url = toURL(urlStr);
         return load(url);
     }
 
-    private URL retrieveUrl(Feed feed) {
-        String href = feed.getHref();
+    private URL toURL(String urlStr) {
         try {
-            return new URL(href);
+            return new URL(urlStr);
         } catch (MalformedURLException e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
             throw new InvalidLinkFormatException(e);
