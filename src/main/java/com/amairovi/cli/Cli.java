@@ -32,6 +32,7 @@ public class Cli {
         commandToProcessor.put("stop", new StopProcessor(core));
         commandToProcessor.put("show", new ShowPropertyProcessor(core));
         commandToProcessor.put("hide", new HidePropertyProcessor(core));
+        commandToProcessor.put("poll", new PollProcessor(core));
     }
 
     public void start() {
@@ -48,16 +49,6 @@ public class Cli {
 //
 //
 //            switch (command) {
-//                case "turn-on":
-//                    int id = toId(params[1]);
-//                    core.enablePoll(id);
-//                    result = "success";
-//                    break;
-//                case "turn-off":
-//                    id = toId(params[1]);
-//                    core.disablePoll(id);
-//                    result = "success";
-//                    break;
 //                case "delete":
 //                    id = toId(params[1]);
 //                    core.delete(id);
