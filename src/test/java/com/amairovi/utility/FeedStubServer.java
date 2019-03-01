@@ -15,10 +15,6 @@ import static org.mockserver.model.HttpResponse.response;
 public class FeedStubServer {
 
     private final int port;
-    private final String atomResponse;
-    private final String rssResponse;
-    private final String atomWithoutEntries;
-    private final String rssWithoutEntries;
     private final String baseUrl;
 
     private ClientAndServer mockServer;
@@ -27,48 +23,26 @@ public class FeedStubServer {
         this.port = port;
         this.baseUrl = "http://localhost:" + port;
 
-        atomResponse = readFile("atom.xml");
-        rssResponse = readFile("rss.xml");
-        atomWithoutEntries = readFile("atom-without-entries.xml");
-        rssWithoutEntries = readFile("rss-without-entries.xml");
-
     }
 
     public void start() {
         mockServer = startClientAndServer(port);
+        addEndpoint("/atom", readFile("atom.xml"));
+        addEndpoint("/rss",  readFile("rss.xml"));
+
+        addEndpoint("/atom_without_entries", readFile("atom-without-entries.xml"));
+        addEndpoint("/rss_without_entries", readFile("rss-without-entries.xml"));
+    }
+
+    private void addEndpoint(String path, String response) {
         mockServer.when(
                 request()
                         .withMethod("GET")
-                        .withPath("/atom")
+                        .withPath(path)
         )
                 .respond(response()
                         .withStatusCode(200)
-                        .withBody(atomResponse)
-                );
-        mockServer.when(
-                request()
-                        .withMethod("GET")
-                        .withPath("/rss")
-        )
-                .respond(response()
-                        .withStatusCode(200)
-                        .withBody(rssResponse)
-                );
-        mockServer.when(
-                request()
-                        .withMethod("GET")
-                        .withPath("/atom_without_entries"))
-                .respond(response()
-                        .withStatusCode(200)
-                        .withBody(atomWithoutEntries)
-                );
-        mockServer.when(
-                request()
-                        .withMethod("GET")
-                        .withPath("/rss_without_entries"))
-                .respond(response()
-                        .withStatusCode(200)
-                        .withBody(rssWithoutEntries)
+                        .withBody(response)
                 );
     }
 
