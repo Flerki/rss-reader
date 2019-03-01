@@ -43,10 +43,6 @@ public class Core {
         feedService = new FeedService(feedDao, scheduleService, loadTaskFactory, entryPropertiesService, feedLoaderService, feedStateService);
     }
 
-    public void createFeed(String url, long pollPeriod) {
-        feedService.createFeed(url, pollPeriod);
-    }
-
     public int createFeed(String url) {
         return feedService.createFeed(url);
     }
