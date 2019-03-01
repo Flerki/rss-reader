@@ -1,10 +1,7 @@
 package com.amairovi.cli;
 
 import com.amairovi.Core;
-import com.amairovi.cli.command.CreateProcessor;
-import com.amairovi.cli.command.ListProcessor;
-import com.amairovi.cli.command.StopProcessor;
-import com.amairovi.cli.command.UnknownCommandProcessor;
+import com.amairovi.cli.command.*;
 import com.amairovi.cli.formatter.FeedConfigsFormatter;
 
 import java.util.HashMap;
@@ -33,6 +30,8 @@ public class Cli {
         commandToProcessor.put("list", new ListProcessor(core));
         commandToProcessor.put("create", new CreateProcessor(core, feedConfigsFormatter, scanner));
         commandToProcessor.put("stop", new StopProcessor(core));
+        commandToProcessor.put("show", new ShowPropertyProcessor(core));
+        commandToProcessor.put("hide", new HidePropertyProcessor(core));
     }
 
     public void start() {
@@ -67,18 +66,6 @@ public class Cli {
 //                case "describe":
 //                    id = toId(params[1]);
 //                    result = core.describe(id);
-//                    break;
-//                case "show":
-//                    String propertyName = params[1];
-//                    id = toId(params[2]);
-//                    core.showProperty(id, propertyName);
-//                    result = "success";
-//                    break;
-//                case "hide":
-//                    propertyName = params[1];
-//                    id = toId(params[2]);
-//                    core.hideProperty(id, propertyName);
-//                    result = "success";
 //                    break;
 //                case "translate":
 //                    String filename = params[1];

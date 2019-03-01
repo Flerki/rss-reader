@@ -75,10 +75,12 @@ public class FeedService {
 
     public void hideProperty(Feed feed, String propertyName){
         entryPropertiesService.hideParameter(feed, propertyName);
+        feedDao.update(feed);
     }
 
     public void showProperty(Feed feed, String propertyName){
         entryPropertiesService.showParameter(feed, propertyName);
+        feedDao.update(feed);
     }
 
     public void setFeedSurveyPeriod(Feed feed, long pollPeriodInMs){
