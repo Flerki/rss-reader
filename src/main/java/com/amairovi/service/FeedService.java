@@ -16,6 +16,8 @@ public class FeedService {
     private final FeedLoaderService feedLoaderService;
     private final FeedStateService feedStateService;
 
+    private final static long DEFAULT_POLL_PERIOD = 10_000L;
+
     public FeedService(FeedDao feedDao,
                        ScheduleService scheduleService,
                        LoadTaskFactory loadTaskFactory,
@@ -47,6 +49,7 @@ public class FeedService {
         String filename = url.replaceAll("[^A-Za-z0-9]", "_");
         feed.setFilename(filename);
         feed.setHref(url);
+        feed.setPollPeriodInMs(DEFAULT_POLL_PERIOD);
 
         feedStateService.update(syndFeed, feed);
         feedDao.save(feed);
@@ -115,24 +118,28 @@ public class FeedService {
         feedDao.update(feed);
     }
 
+    public void enablePoll(Feed feed) {
+        feed.setPolled(true);
+        feedDao.update(feed);
+
+        int id = feed.getId();
+        long pollPeriodInMs = feed.getPollPeriodInMs();
+        Runnable task = loadTaskFactory.create(feed);
+        scheduleService.scheduleTask(id, pollPeriodInMs, task);
+    }
+
     public void disablePoll(Feed feed){
         requireNonNull(feed);
+
+        feed.setPolled(false);
+        feedDao.update(feed);
 
         int id = feed.getId();
         scheduleService.cancelTask(id);
     }
 
-//    public void enablePoll(Feed feed){
-//        requireNonNull(feed);
-//
-//        int id = feed.getId();
-//        scheduleService.scheduleTask(id, );
-//    }
-
     public Feed findById(int id){
         return feedDao.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Feed with id="+ id + "is not found"));
     }
-
-
 }

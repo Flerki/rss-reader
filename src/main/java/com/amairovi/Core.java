@@ -73,7 +73,8 @@ public class Core {
     }
 
     public void enablePoll(int id) {
-        throw new RuntimeException("Not implemented");
+        Feed feed = feedService.findById(id);
+        feedService.enablePoll(feed);
     }
 
     public void disablePoll(int id) {
