@@ -14,26 +14,26 @@ public class FeedService {
     private final LoadTaskFactory loadTaskFactory;
     private final EntryPropertiesService entryPropertiesService;
     private final FeedLoaderService feedLoaderService;
+    private final FeedStateService feedStateService;
 
     public FeedService(FeedDao feedDao,
-                       ScheduleService scheduleService, LoadTaskFactory loadTaskFactory, EntryPropertiesService entryPropertiesService, FeedLoaderService feedLoaderService) {
+                       ScheduleService scheduleService,
+                       LoadTaskFactory loadTaskFactory,
+                       EntryPropertiesService entryPropertiesService,
+                       FeedLoaderService feedLoaderService,
+                       FeedStateService feedStateService) {
         this.feedDao = feedDao;
         this.scheduleService = scheduleService;
         this.loadTaskFactory = loadTaskFactory;
         this.entryPropertiesService = entryPropertiesService;
         this.feedLoaderService = feedLoaderService;
+        this.feedStateService = feedStateService;
     }
 
     public void createFeed(String url){
         requireNonNull(url);
 
-        String filename = url.replaceAll("[^A-Za-z0-9]", "_");
-        Feed feed = new Feed();
-        feed.setHref(url);
-        feed.setName(url);
-        feed.setFilename(filename);
-
-        SyndFeed syndFeed = feedLoaderService.load(feed);
+        SyndFeed syndFeed = feedLoaderService.load(url);
         if (syndFeed.getEntries().isEmpty()){
             throw new IncorrectRssException("Feed doesn't contain entries");
         }
@@ -41,8 +41,11 @@ public class FeedService {
         if (isNull(syndFeed.getPublishedDate())){
             throw new IncorrectRssException("Feed doesn't contain published date");
         }
-    }
 
+        Feed feed = new Feed();
+        feedStateService.update(syndFeed, feed);
+        feedDao.save(feed);
+    }
 
     public void createFeed(String url, long pollPeriodInMs){
         requireNonNull(url);

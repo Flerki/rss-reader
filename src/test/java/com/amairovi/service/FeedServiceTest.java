@@ -35,8 +35,9 @@ class FeedServiceTest {
         loadTaskFactory = mock(LoadTaskFactory.class);
         entryPropertiesService = mock(EntryPropertiesService.class);
         feedLoaderService = mock(FeedLoaderService.class);
+        FeedStateService feedStateService = mock(FeedStateService.class);
 
-        feedService = new FeedService(feedDao, scheduleService, loadTaskFactory, entryPropertiesService, feedLoaderService);
+        feedService = new FeedService(feedDao, scheduleService, loadTaskFactory, entryPropertiesService, feedLoaderService, feedStateService);
 
         feed = new Feed();
         feedId = 1;

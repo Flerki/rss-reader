@@ -33,12 +33,13 @@ public class Core {
         feedFileService = new FeedFileService();
         feedFormatter = new FeedFormatter();
         entryPropertiesService = new EntryPropertiesService();
-        LoadTaskFactory loadTaskFactory = new LoadTaskFactory(feedFileService, feedLoaderService, feedFormatter, entryPropertiesService);
+        FeedStateService feedStateService = new FeedStateService(entryPropertiesService);
+        LoadTaskFactory loadTaskFactory = new LoadTaskFactory(feedFileService, feedLoaderService, feedFormatter, feedStateService);
 
         ScheduledExecutorService scheduledExecutorService = newSingleThreadScheduledExecutor();
         scheduleService = new ScheduleService(scheduledExecutorService);
 
-        feedService = new FeedService(feedDao, scheduleService, loadTaskFactory, entryPropertiesService, feedLoaderService);
+        feedService = new FeedService(feedDao, scheduleService, loadTaskFactory, entryPropertiesService, feedLoaderService, feedStateService);
     }
 
     public void createFeed(String url, long pollPeriod) {
