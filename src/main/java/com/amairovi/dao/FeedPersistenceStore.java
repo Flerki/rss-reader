@@ -3,7 +3,10 @@ package com.amairovi.dao;
 import com.amairovi.model.Feed;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
@@ -25,36 +28,7 @@ public class FeedPersistenceStore {
         this.filepath = Paths.get(file);
     }
 
-    @SuppressWarnings("unchecked")
     public List<Feed> load() {
-        List<Feed> result;
-        try (InputStream input = newInputStream(filepath)) {
-            ObjectInputStream in = new ObjectInputStream(input);
-            result = (List<Feed>) in.readObject();
-        } catch (IOException e) {
-            String message = "Exception occurred during load of the file with feeds. " +
-                    "Highly likely error related to inconsistent state of file or its absence. " +
-                    "So file with feeds is ignored. " +
-                    "Message: " + e.getMessage();
-            LOGGER.log(Level.SEVERE, message);
-            return new ArrayList<>();
-        } catch (ClassNotFoundException c) {
-            LOGGER.log(Level.SEVERE, "Feed class not found");
-            throw new RuntimeException(c);
-        }
-        return result;
-    }
-
-    public synchronized void store(List<Feed> feeds) {
-        try (OutputStream outStream = newOutputStream(filepath, StandardOpenOption.CREATE)) {
-            ObjectOutputStream out = new ObjectOutputStream(outStream);
-            out.writeObject(feeds);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public List<Feed> loadFromYaml() {
         try (InputStream input = newInputStream(filepath)) {
             Yaml yaml = new Yaml();
             List<Feed> loaded = yaml.load(input);
@@ -70,7 +44,7 @@ public class FeedPersistenceStore {
         return new ArrayList<>();
     }
 
-    public synchronized void storeToYml(List<Feed> feeds) {
+    public synchronized void store(List<Feed> feeds) {
         try (OutputStream outStream = newOutputStream(filepath, StandardOpenOption.CREATE);
              OutputStreamWriter writer = new OutputStreamWriter(outStream)) {
             Yaml yaml = new Yaml();
