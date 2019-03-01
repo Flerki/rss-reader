@@ -13,9 +13,9 @@ import org.junit.jupiter.api.*;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class FeedLoaderServiceTest {
     private FeedLoaderService feedLoaderService;

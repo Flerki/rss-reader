@@ -1,7 +1,9 @@
 package com.amairovi.service;
 
 import com.amairovi.dao.FeedDao;
+import com.amairovi.exception.IncorrectRssException;
 import com.amairovi.model.Feed;
+import com.rometools.rome.feed.synd.SyndFeed;
 
 import static java.util.Objects.requireNonNull;
 
@@ -10,13 +12,32 @@ public class FeedService {
     private final ScheduleService scheduleService;
     private final LoadTaskFactory loadTaskFactory;
     private final EntryPropertiesService entryPropertiesService;
+    private final FeedLoaderService feedLoaderService;
 
-    public FeedService(FeedDao feedDao, ScheduleService scheduleService, LoadTaskFactory loadTaskFactory, EntryPropertiesService entryPropertiesService) {
+    public FeedService(FeedDao feedDao,
+                       ScheduleService scheduleService, LoadTaskFactory loadTaskFactory, EntryPropertiesService entryPropertiesService, FeedLoaderService feedLoaderService) {
         this.feedDao = feedDao;
         this.scheduleService = scheduleService;
         this.loadTaskFactory = loadTaskFactory;
         this.entryPropertiesService = entryPropertiesService;
+        this.feedLoaderService = feedLoaderService;
     }
+
+    public void createFeed(String url){
+        requireNonNull(url);
+
+        String filename = url.replaceAll("[^A-Za-z0-9]", "_");
+        Feed feed = new Feed();
+        feed.setHref(url);
+        feed.setName(url);
+        feed.setFilename(filename);
+
+        SyndFeed syndFeed = feedLoaderService.load(feed);
+        if (syndFeed.getEntries().isEmpty()){
+            throw new IncorrectRssException("Feed doesn't contain entries");
+        }
+    }
+
 
     public void createFeed(String url, long pollPeriodInMs){
         requireNonNull(url);

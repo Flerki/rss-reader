@@ -38,7 +38,7 @@ public class Core {
         ScheduledExecutorService scheduledExecutorService = newSingleThreadScheduledExecutor();
         scheduleService = new ScheduleService(scheduledExecutorService);
 
-        feedService = new FeedService(feedDao, scheduleService, loadTaskFactory, entryPropertiesService);
+        feedService = new FeedService(feedDao, scheduleService, loadTaskFactory, entryPropertiesService, feedLoaderService);
     }
 
     public void createFeed(String url, long pollPeriod) {
@@ -46,7 +46,7 @@ public class Core {
     }
 
     public void createFeed(String url) {
-        feedService.createFeed(url, DEFAULT_POLL_PERIOD_MS);
+        feedService.createFeed(url);
     }
 
     public void setFeedSurveyPeriod(int id, long pollPeriod) {

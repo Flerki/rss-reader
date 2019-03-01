@@ -26,6 +26,7 @@ class FeedServiceTest {
     private ScheduleService scheduleService;
     private LoadTaskFactory loadTaskFactory;
     private EntryPropertiesService entryPropertiesService;
+    private FeedLoaderService feedLoaderService;
 
     @BeforeEach
     void setup() {
@@ -33,8 +34,9 @@ class FeedServiceTest {
         scheduleService = mock(ScheduleService.class);
         loadTaskFactory = mock(LoadTaskFactory.class);
         entryPropertiesService = mock(EntryPropertiesService.class);
+        feedLoaderService = mock(FeedLoaderService.class);
 
-        feedService = new FeedService(feedDao, scheduleService, loadTaskFactory, entryPropertiesService);
+        feedService = new FeedService(feedDao, scheduleService, loadTaskFactory, entryPropertiesService, feedLoaderService);
 
         feed = new Feed();
         feedId = 1;
