@@ -39,16 +39,10 @@ public class FeedService {
     }
 
     public void hideProperty(Feed feed, String propertyName){
-        if (!feed.getEntryParameterNameToVisibility().containsKey(propertyName)){
-            throw new IllegalArgumentException("There is no property with name=" + propertyName + " for feed with id=" + feed.getId());
-        }
         entryPropertiesService.hideParameter(feed, propertyName);
     }
 
     public void showProperty(Feed feed, String propertyName){
-        if (!feed.getEntryParameterNameToVisibility().containsKey(propertyName)){
-            throw new IllegalArgumentException("There is no property with name=" + propertyName + " for feed with id=" + feed.getId());
-        }
         entryPropertiesService.showParameter(feed, propertyName);
     }
 
