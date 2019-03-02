@@ -33,6 +33,7 @@ public class Cli {
         commandToProcessor.put("show", new ShowPropertyProcessor(core));
         commandToProcessor.put("hide", new HidePropertyProcessor(core));
         commandToProcessor.put("poll", new PollProcessor(core));
+        commandToProcessor.put("set", new SetProcessor(core));
     }
 
     public void start() {
