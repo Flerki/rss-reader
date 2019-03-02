@@ -11,6 +11,8 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
 
 public class FeedService {
+    private final static int DEFAULT_AMOUNT_OF_ELEMENTS_AT_ONCE = 5;
+
     private final FeedDao feedDao;
     private final ScheduleService scheduleService;
     private final EntryPropertiesService entryPropertiesService;
@@ -29,15 +31,15 @@ public class FeedService {
         this.feedStateService = feedStateService;
     }
 
-    public int createFeed(String url, long pollPeriodInMs){
+    public int createFeed(String url, long pollPeriodInMs) {
         requireNonNull(url);
 
         SyndFeed syndFeed = feedLoaderService.load(url);
-        if (syndFeed.getEntries().isEmpty()){
+        if (syndFeed.getEntries().isEmpty()) {
             throw new IncorrectRssException("Feed doesn't contain entries");
         }
 
-        if (isNull(syndFeed.getPublishedDate())){
+        if (isNull(syndFeed.getPublishedDate())) {
             throw new IncorrectRssException("Feed doesn't contain published date");
         }
 
@@ -47,40 +49,41 @@ public class FeedService {
         feed.setFilename(filename);
         feed.setHref(url);
         feed.setPollPeriodInMs(pollPeriodInMs);
+        feed.setAmountOfElementsAtOnce(DEFAULT_AMOUNT_OF_ELEMENTS_AT_ONCE);
 
         feedStateService.update(syndFeed, feed);
         feedDao.save(feed);
         return feed.getId();
     }
 
-    public void hideProperty(Feed feed, String propertyName){
+    public void hideProperty(Feed feed, String propertyName) {
         entryPropertiesService.hideParameter(feed, propertyName);
         feedDao.update(feed);
     }
 
-    public void showProperty(Feed feed, String propertyName){
+    public void showProperty(Feed feed, String propertyName) {
         entryPropertiesService.showParameter(feed, propertyName);
         feedDao.update(feed);
     }
 
-    public void setPollPeriodInMs(Feed feed, long pollPeriodInMs){
+    public void setPollPeriodInMs(Feed feed, long pollPeriodInMs) {
         requireNonNull(feed);
 
-        if (pollPeriodInMs < 1){
+        if (pollPeriodInMs < 1) {
             throw new IllegalArgumentException("Poll period has to be greater than 0");
         }
 
         feed.setPollPeriodInMs(pollPeriodInMs);
         feedDao.update(feed);
-        
-        if (feed.isPolled()){
+
+        if (feed.isPolled()) {
             scheduleService.cancelPolling(feed.getId());
 
             scheduleService.schedulePolling(feed);
         }
     }
 
-    public void setFeedFilename(Feed feed, String filename){
+    public void setFeedFilename(Feed feed, String filename) {
         requireNonNull(feed);
         requireNonNull(filename);
 
@@ -88,9 +91,9 @@ public class FeedService {
         feedDao.update(feed);
     }
 
-    public void setFeedAmountOfElementsAtOnce(Feed feed, int amountOfElementsAtOnce){
+    public void setFeedAmountOfElementsAtOnce(Feed feed, int amountOfElementsAtOnce) {
         requireNonNull(feed);
-        if (amountOfElementsAtOnce < 1){
+        if (amountOfElementsAtOnce < 1) {
             throw new IllegalArgumentException("Amount of elements at once has to be greater than 0");
         }
 
@@ -105,7 +108,7 @@ public class FeedService {
         scheduleService.schedulePolling(feed);
     }
 
-    public void disablePoll(Feed feed){
+    public void disablePoll(Feed feed) {
         requireNonNull(feed);
 
         feed.setPolled(false);
@@ -115,8 +118,8 @@ public class FeedService {
         scheduleService.cancelPolling(id);
     }
 
-    public Feed findById(int id){
+    public Feed findById(int id) {
         return feedDao.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Feed with id="+ id + "is not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Feed with id=" + id + "is not found"));
     }
 }
