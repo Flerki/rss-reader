@@ -73,11 +73,13 @@ public class FeedService {
 
         feed.setPollPeriodInMs(pollPeriodInMs);
         feedDao.update(feed);
+        
+        if (feed.isPolled()){
+            scheduleService.cancelTask(feed.getId());
 
-        scheduleService.cancelTask(feed.getId());
-
-        Runnable task = loadTaskFactory.create(feed);
-        scheduleService.scheduleTask(feed.getId(), pollPeriodInMs, task);
+            Runnable task = loadTaskFactory.create(feed);
+            scheduleService.scheduleTask(feed.getId(), pollPeriodInMs, task);
+        }
     }
 
     public void setFeedFilename(Feed feed, String filename){

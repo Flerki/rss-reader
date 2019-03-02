@@ -75,7 +75,6 @@ class FeedServiceTest {
             assertEquals(feed.getPollPeriodInMs(), surveyPeriodInMs);
 
             verify(feedDao).update(eq(feed));
-            verify(scheduleService).scheduleTask(eq(feedId), eq(surveyPeriodInMs), any());
         }
     }
 
