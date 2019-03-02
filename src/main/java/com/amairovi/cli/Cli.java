@@ -7,6 +7,7 @@ import com.amairovi.cli.formatter.FeedConfigsFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.LogManager;
 
 public class Cli {
     private final Scanner scanner;
@@ -16,6 +17,7 @@ public class Cli {
     private final UnknownCommandProcessor unknownCommandProcessor;
 
     public static void main(String[] args) {
+        LogManager.getLogManager().reset();
         Core core = new Core();
         new Cli(core).start();
     }
@@ -40,12 +42,17 @@ public class Cli {
 
         while (true) {
             String commandLine = scanner.nextLine().trim();
-            String[] params = commandLine.split(" ");
+            try {
+                String[] params = commandLine.split(" ");
 
-            String command = params[0];
+                String command = params[0];
 
-            CommandProcessor processor = commandToProcessor.getOrDefault(command, unknownCommandProcessor);
-            processor.process(params);
+                CommandProcessor processor = commandToProcessor.getOrDefault(command, unknownCommandProcessor);
+                processor.process(params);
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+
 //            String result;
 //
 //
