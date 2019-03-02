@@ -41,3 +41,16 @@ set [poll-period | filename | item-amount | name] <poll-period-in-sec | filename
 show <property-name> <name-id>
 stop
 ```
+
+## Example
+```create http://static.feed.rbc.ru/rbc/logical/footer/news.rss``` - creates feed for http://static.feed.rbc.ru/rbc/logical/footer/news.rss , asks the user if they want to hide any feed's entries'properties. 
+
+```list``` - shows only one entry.
+
+```describe 1``` - describes created feed.
+
+```set filename rbc 1``` - sets rbc as a file for writing in for the feed.
+
+```poll on 1``` - begins polling.
+
+```stop``` - stops the program.
