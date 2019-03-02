@@ -14,6 +14,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static java.lang.System.lineSeparator;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -45,7 +46,7 @@ class FeedFileServiceTest {
     void when_write_several_lines_sequentially_then_file_contain_according_lines() throws IOException {
         List<String> generatedLines = generateLines(10, 10);
 
-        generatedLines.forEach(writeToFeedFile);
+        generatedLines.forEach(line -> writeToFeedFile.accept(line + lineSeparator()));
 
         List<String> actual = Files.readAllLines(Paths.get(FILENAME));
         assertThat(actual, equalTo(generatedLines));
@@ -58,7 +59,7 @@ class FeedFileServiceTest {
 
         generatedLines.stream()
                 .parallel()
-                .forEach(writeToFeedFile);
+                .forEach(line -> writeToFeedFile.accept(line + lineSeparator()));
 
         List<String> actual = Files.readAllLines(Paths.get(FILENAME));
         assertThat(actual, containsInAnyOrder(generatedLines.toArray()));
