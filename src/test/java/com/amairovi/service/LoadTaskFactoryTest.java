@@ -1,9 +1,9 @@
 package com.amairovi.service;
 
+import com.amairovi.dao.FeedDao;
 import com.amairovi.model.Feed;
 import com.rometools.rome.feed.synd.SyndFeed;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.ArgumentMatchers.eq;
@@ -23,7 +23,8 @@ class LoadTaskFactoryTest {
         feedFileService = mock(FeedFileService.class);
         feedLoaderService = mock(FeedLoaderService.class);
         feedStateService = mock(FeedStateService.class);
-        loadTaskFactory = new LoadTaskFactory(feedFileService, feedLoaderService, feedStateService);
+        FeedDao feedDao = mock(FeedDao.class);
+        loadTaskFactory = new LoadTaskFactory(feedFileService, feedLoaderService, feedStateService, feedDao);
     }
 
     @Test
