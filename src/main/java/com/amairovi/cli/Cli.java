@@ -33,7 +33,6 @@ public class Cli {
     }
 
     public void start() {
-
         while (true) {
             String commandLine = scanner.nextLine().trim();
             try {
@@ -46,31 +45,6 @@ public class Cli {
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
             }
-
-//            String result;
-//
-//
-//            switch (command) {
-//                case "delete":
-//                    id = toId(params[1]);
-//                    core.delete(id);
-//                    result = "success";
-//                    break;
-//                case "describe":
-//                    id = toId(params[1]);
-//                    result = core.describe(id);
-//                    break;
-//                case "translate":
-//                    String filename = params[1];
-//                    id = toId(params[2]);
-//                    core.redirectFeedTo(id, filename);
-//                    result = "success";
-//                    break;
-//            }
         }
-    }
-
-    private int toId(String str) {
-        return Integer.valueOf(str);
     }
 }
