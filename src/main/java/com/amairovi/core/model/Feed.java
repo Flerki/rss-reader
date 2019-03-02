@@ -20,7 +20,7 @@ public class Feed {
 
     private String filename;
 
-    private int amountOfElementsAtOnce = 1;
+    private int amountOfElementsAtOnce;
 
     private boolean isPolled;
 
