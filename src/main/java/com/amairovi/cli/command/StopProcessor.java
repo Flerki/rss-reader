@@ -15,4 +15,9 @@ public class StopProcessor implements CommandProcessor {
         feedServiceFacade.stop();
         System.exit(0);
     }
+
+    @Override
+    public String commandFormat() {
+        return "stop";
+    }
 }

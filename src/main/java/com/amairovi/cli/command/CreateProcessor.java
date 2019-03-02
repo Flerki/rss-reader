@@ -83,4 +83,9 @@ public class CreateProcessor implements CommandProcessor {
     private int initialiseFeed(String url) {
         return feedServiceFacade.createFeed(url);
     }
+
+    @Override
+    public String commandFormat() {
+        return "create <url>";
+    }
 }

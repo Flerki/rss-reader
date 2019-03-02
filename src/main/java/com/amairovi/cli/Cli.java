@@ -30,6 +30,7 @@ public class Cli {
         commandToProcessor.put("poll", new PollProcessor(feedServiceFacade));
         commandToProcessor.put("set", new SetProcessor(feedServiceFacade));
         commandToProcessor.put("delete", new DeleteProcessor(feedServiceFacade));
+        commandToProcessor.put("help", new HelpProcessor(commandToProcessor));
     }
 
     public void start() {

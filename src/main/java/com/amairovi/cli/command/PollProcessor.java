@@ -42,6 +42,6 @@ public class PollProcessor implements CommandProcessor {
 
     @Override
     public String commandFormat() {
-        return "poll [on|off] <feedId>";
+        return "poll [on | off] <feed-id>";
     }
 }

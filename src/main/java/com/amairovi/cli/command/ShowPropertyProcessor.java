@@ -20,4 +20,9 @@ public class ShowPropertyProcessor implements CommandProcessor {
         String message = String.format(PATTERN, propertyName, feedId);
         System.out.println(message);
     }
+
+    @Override
+    public String commandFormat() {
+        return "show <property-name> <name-id>";
+    }
 }

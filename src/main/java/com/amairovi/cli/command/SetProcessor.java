@@ -45,7 +45,7 @@ public class SetProcessor implements CommandProcessor {
 
     @Override
     public String commandFormat() {
-        return "set [poll-period|filename|item-amount] <poll-period-in-sec|filename|item-amount> <feedId>";
+        return "set [poll-period | filename | item-amount] <poll-period-in-sec | filename | item-amount> <feed-id>";
     }
 }
 

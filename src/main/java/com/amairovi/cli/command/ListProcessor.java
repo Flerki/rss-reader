@@ -42,4 +42,9 @@ public class ListProcessor implements CommandProcessor {
         return String.format(PATTERN, id, name, link, filename);
 
     }
+
+    @Override
+    public String commandFormat() {
+        return "list";
+    }
 }

@@ -20,4 +20,9 @@ public class HidePropertyProcessor implements CommandProcessor {
         String message = String.format(PATTERN, propertyName, feedId);
         System.out.println(message);
     }
+
+    @Override
+    public String commandFormat() {
+        return "hide <property-name> <feed-id>";
+    }
 }

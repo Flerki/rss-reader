@@ -27,6 +27,6 @@ public class DeleteProcessor implements CommandProcessor {
 
     @Override
     public String commandFormat() {
-        return "delete <feedId>";
+        return "delete <feed-id>";
     }
 }
