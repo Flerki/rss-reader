@@ -40,12 +40,19 @@ public class SetProcessor implements CommandProcessor {
             return;
         }
 
+        if(property.equals("name")){
+            String name = params[2];
+            int id = Integer.valueOf(params[3]);
+            feedServiceFacade.setFeedName(id, name);
+            return;
+        }
+
         throwUnknownCommandException(params);
     }
 
     @Override
     public String commandFormat() {
-        return "set [poll-period | filename | item-amount] <poll-period-in-sec | filename | item-amount> <feed-id>";
+        return "set [poll-period | filename | item-amount | name] <poll-period-in-sec | filename | item-amount | name> <feed-id>";
     }
 }
 

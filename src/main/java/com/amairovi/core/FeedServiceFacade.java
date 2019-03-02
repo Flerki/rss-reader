@@ -104,4 +104,10 @@ public class FeedServiceFacade {
         Feed feed = feedService.findById(feedId);
         return new FeedInfo(feed);
     }
+
+    public void setFeedName(int feedId, String name) {
+        Feed feed = feedService.findById(feedId);
+        feed.setName(name);
+        feedDao.update(feed);
+    }
 }
