@@ -1,16 +1,16 @@
 package com.amairovi.cli.command;
 
-import com.amairovi.Core;
+import com.amairovi.core.FeedServiceFacade;
 import com.amairovi.cli.CommandProcessor;
 
 public class PollProcessor implements CommandProcessor {
     private static final String ENABLE_PATTERN = "Feed with id=%d will be polled from now on.";
     private static final String DISABLE_PATTERN = "Feed with id=%d will not be polled from now on.";
 
-    private final Core core;
+    private final FeedServiceFacade feedServiceFacade;
 
-    public PollProcessor(Core core) {
-        this.core = core;
+    public PollProcessor(FeedServiceFacade feedServiceFacade) {
+        this.feedServiceFacade = feedServiceFacade;
     }
 
     @Override
@@ -24,14 +24,14 @@ public class PollProcessor implements CommandProcessor {
         int id = Integer.valueOf(params[2]);
 
         if (pollStatus.equals("on")) {
-            core.enablePoll(id);
+            feedServiceFacade.enablePoll(id);
             String message = String.format(ENABLE_PATTERN, id);
             System.out.println(message);
             return;
         }
 
         if (pollStatus.equals("off")) {
-            core.disablePoll(id);
+            feedServiceFacade.disablePoll(id);
             String message = String.format(DISABLE_PATTERN, id);
             System.out.println(message);
             return;

@@ -1,20 +1,20 @@
 package com.amairovi.cli.command;
 
-import com.amairovi.Core;
+import com.amairovi.core.FeedServiceFacade;
 import com.amairovi.cli.CommandProcessor;
 import com.amairovi.cli.formatter.FeedConfigsFormatter;
-import com.amairovi.dto.ChannelInfo;
-import com.amairovi.dto.FeedInfo;
+import com.amairovi.core.dto.ChannelInfo;
+import com.amairovi.core.dto.FeedInfo;
 
 import java.util.Scanner;
 
 public class CreateProcessor implements CommandProcessor {
-    private final Core core;
+    private final FeedServiceFacade feedServiceFacade;
     private final FeedConfigsFormatter feedConfigsFormatter;
     private final Scanner input;
 
-    public CreateProcessor(Core core, FeedConfigsFormatter feedConfigsFormatter, Scanner input) {
-        this.core = core;
+    public CreateProcessor(FeedServiceFacade feedServiceFacade, FeedConfigsFormatter feedConfigsFormatter, Scanner input) {
+        this.feedServiceFacade = feedServiceFacade;
         this.feedConfigsFormatter = feedConfigsFormatter;
         this.input = input;
     }
@@ -33,7 +33,7 @@ public class CreateProcessor implements CommandProcessor {
     }
 
     private void printFeedInfo(int feedId) {
-        FeedInfo feedFullDescription = core.getFeedFullDescription(feedId);
+        FeedInfo feedFullDescription = feedServiceFacade.getFeedFullDescription(feedId);
 
         System.out.println(feedConfigsFormatter.format(feedFullDescription));
         System.out.println();
@@ -61,7 +61,7 @@ public class CreateProcessor implements CommandProcessor {
                     .keySet()) {
                 System.out.println("Do you want to hide " + propertyName + "? (y/n)");
                 if (readYesNo()) {
-                    core.hideProperty(feedId, propertyName);
+                    feedServiceFacade.hideProperty(feedId, propertyName);
                 }
             }
         }
@@ -81,6 +81,6 @@ public class CreateProcessor implements CommandProcessor {
     }
 
     private int initialiseFeed(String url) {
-        return core.createFeed(url);
+        return feedServiceFacade.createFeed(url);
     }
 }

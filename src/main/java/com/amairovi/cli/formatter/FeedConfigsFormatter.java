@@ -1,6 +1,6 @@
 package com.amairovi.cli.formatter;
 
-import com.amairovi.dto.FeedInfo;
+import com.amairovi.core.dto.FeedInfo;
 
 public class FeedConfigsFormatter {
     private final static String PATTERN =

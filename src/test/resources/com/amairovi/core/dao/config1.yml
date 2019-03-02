@@ -1,0 +1,4 @@
+- !!com.amairovi.core.model.Feed {amountOfElementsAtOnce: 10, feedProperties: null, filename: filename1,
+                             href: href1, id: 0, name: feed1, pollPeriodInMs: 1}
+- !!com.amairovi.core.model.Feed {amountOfElementsAtOnce: 20, feedProperties: null, filename: filename2,
+                             href: href2, id: 0, name: feed2, pollPeriodInMs: 1}

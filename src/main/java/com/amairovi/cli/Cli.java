@@ -1,13 +1,12 @@
 package com.amairovi.cli;
 
-import com.amairovi.Core;
+import com.amairovi.core.FeedServiceFacade;
 import com.amairovi.cli.command.*;
 import com.amairovi.cli.formatter.FeedConfigsFormatter;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.logging.LogManager;
 
 public class Cli {
     private final Scanner scanner;
@@ -16,26 +15,20 @@ public class Cli {
 
     private final UnknownCommandProcessor unknownCommandProcessor;
 
-    public static void main(String[] args) {
-        LogManager.getLogManager().reset();
-        Core core = new Core();
-        new Cli(core).start();
-    }
-
-    public Cli(Core core) {
+    public Cli(FeedServiceFacade feedServiceFacade) {
         scanner = new Scanner(System.in);
         commandToProcessor = new HashMap<>();
         unknownCommandProcessor = new UnknownCommandProcessor();
 
         FeedConfigsFormatter feedConfigsFormatter = new FeedConfigsFormatter();
 
-        commandToProcessor.put("list", new ListProcessor(core));
-        commandToProcessor.put("create", new CreateProcessor(core, feedConfigsFormatter, scanner));
-        commandToProcessor.put("stop", new StopProcessor(core));
-        commandToProcessor.put("show", new ShowPropertyProcessor(core));
-        commandToProcessor.put("hide", new HidePropertyProcessor(core));
-        commandToProcessor.put("poll", new PollProcessor(core));
-        commandToProcessor.put("set", new SetProcessor(core));
+        commandToProcessor.put("list", new ListProcessor(feedServiceFacade));
+        commandToProcessor.put("create", new CreateProcessor(feedServiceFacade, feedConfigsFormatter, scanner));
+        commandToProcessor.put("stop", new StopProcessor(feedServiceFacade));
+        commandToProcessor.put("show", new ShowPropertyProcessor(feedServiceFacade));
+        commandToProcessor.put("hide", new HidePropertyProcessor(feedServiceFacade));
+        commandToProcessor.put("poll", new PollProcessor(feedServiceFacade));
+        commandToProcessor.put("set", new SetProcessor(feedServiceFacade));
     }
 
     public void start() {

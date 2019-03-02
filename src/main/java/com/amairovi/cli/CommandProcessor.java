@@ -1,6 +1,6 @@
 package com.amairovi.cli;
 
-import com.amairovi.exception.UnknownCommandException;
+import com.amairovi.core.exception.UnknownCommandException;
 
 import static java.lang.String.join;
 

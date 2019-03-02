@@ -1,22 +1,22 @@
 package com.amairovi.cli.command;
 
-import com.amairovi.Core;
+import com.amairovi.core.FeedServiceFacade;
 import com.amairovi.cli.CommandProcessor;
 
 public class ShowPropertyProcessor implements CommandProcessor {
     private static final String PATTERN = "Property with name=%s will be printed from now on for feed with id=%d.";
 
-    private final Core core;
+    private final FeedServiceFacade feedServiceFacade;
 
-    public ShowPropertyProcessor(Core core) {
-        this.core = core;
+    public ShowPropertyProcessor(FeedServiceFacade feedServiceFacade) {
+        this.feedServiceFacade = feedServiceFacade;
     }
 
     @Override
     public void process(String[] params) {
         String propertyName = params[1];
         int feedId = Integer.valueOf(params[2]);
-        core.showProperty(feedId, propertyName);
+        feedServiceFacade.showProperty(feedId, propertyName);
         String message = String.format(PATTERN, propertyName, feedId);
         System.out.println(message);
     }

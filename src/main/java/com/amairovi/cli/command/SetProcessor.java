@@ -1,14 +1,14 @@
 package com.amairovi.cli.command;
 
-import com.amairovi.Core;
+import com.amairovi.core.FeedServiceFacade;
 import com.amairovi.cli.CommandProcessor;
 
 public class SetProcessor implements CommandProcessor {
 
-    private final Core core;
+    private final FeedServiceFacade feedServiceFacade;
 
-    public SetProcessor(Core core) {
-        this.core = core;
+    public SetProcessor(FeedServiceFacade feedServiceFacade) {
+        this.feedServiceFacade = feedServiceFacade;
     }
 
     @Override
@@ -22,21 +22,21 @@ public class SetProcessor implements CommandProcessor {
         if (property.equals("poll-period")) {
             long pollPeriodInSec = Integer.valueOf(params[2]);
             int id = Integer.valueOf(params[3]);
-            core.setPollPeriodInMs(id, pollPeriodInSec * 1000);
+            feedServiceFacade.setPollPeriodInMs(id, pollPeriodInSec * 1000);
             return;
         }
 
         if (property.equals("filename")) {
             String filename = params[2];
             int id = Integer.valueOf(params[3]);
-            core.setFeedFilename(id, filename);
+            feedServiceFacade.setFeedFilename(id, filename);
             return;
         }
 
         if (property.equals("item-amount")) {
             int itemAmount = Integer.valueOf(params[2]);
             int id = Integer.valueOf(params[3]);
-            core.setFeedAmountOfElementsAtOnce(id, itemAmount);
+            feedServiceFacade.setFeedAmountOfElementsAtOnce(id, itemAmount);
             return;
         }
 

@@ -1,8 +1,8 @@
 package com.amairovi.cli.command;
 
-import com.amairovi.Core;
+import com.amairovi.core.FeedServiceFacade;
 import com.amairovi.cli.CommandProcessor;
-import com.amairovi.dto.FeedBriefInfo;
+import com.amairovi.core.dto.FeedBriefInfo;
 
 import java.util.List;
 
@@ -15,15 +15,15 @@ public class ListProcessor implements CommandProcessor {
             "link: %s%n" +
             "filename: %s";
 
-    private final Core core;
+    private final FeedServiceFacade feedServiceFacade;
 
-    public ListProcessor(Core core) {
-        this.core = core;
+    public ListProcessor(FeedServiceFacade feedServiceFacade) {
+        this.feedServiceFacade = feedServiceFacade;
     }
 
     @Override
     public void process(String[] params) {
-        List<FeedBriefInfo> feeds = core.list();
+        List<FeedBriefInfo> feeds = feedServiceFacade.list();
         if (feeds.isEmpty()) {
             System.out.println("There is no feed.");
         } else {
