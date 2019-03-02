@@ -9,6 +9,7 @@ import com.amairovi.core.service.*;
 import com.amairovi.core.service.polling.FeedLoaderService;
 import com.amairovi.core.service.polling.LoadTaskFactory;
 import com.amairovi.core.service.polling.ScheduleService;
+import com.amairovi.core.service.polling.SynchronizedFileWriter;
 
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
@@ -29,10 +30,10 @@ public class FeedServiceFacade {
 
 
         FeedLoaderService feedLoaderService = new FeedLoaderService();
-        FeedFileService feedFileService = new FeedFileService();
+        SynchronizedFileWriter synchronizedFileWriter = new SynchronizedFileWriter();
         EntryPropertiesService entryPropertiesService = new EntryPropertiesService();
         FeedStateService feedStateService = new FeedStateService(entryPropertiesService);
-        LoadTaskFactory loadTaskFactory = new LoadTaskFactory(feedFileService, feedLoaderService, feedStateService, feedDao);
+        LoadTaskFactory loadTaskFactory = new LoadTaskFactory(synchronizedFileWriter, feedLoaderService, feedStateService, feedDao);
 
         ScheduledExecutorService scheduledExecutorService = newSingleThreadScheduledExecutor();
         ScheduleService scheduleService = new ScheduleService(scheduledExecutorService, loadTaskFactory);

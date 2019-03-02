@@ -1,4 +1,4 @@
-package com.amairovi.core.service;
+package com.amairovi.core.service.polling;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -10,9 +10,9 @@ import java.util.logging.Logger;
 
 import static java.nio.file.Files.exists;
 
-public class FeedFileService {
+public class SynchronizedFileWriter {
 
-    private static final Logger LOGGER = Logger.getLogger(FeedFileService.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SynchronizedFileWriter.class.getName());
 
     private Map<String, Object> filenameToMonitor = new ConcurrentHashMap<>();
 

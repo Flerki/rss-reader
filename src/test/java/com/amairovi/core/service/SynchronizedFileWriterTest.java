@@ -1,5 +1,6 @@
 package com.amairovi.core.service;
 
+import com.amairovi.core.service.polling.SynchronizedFileWriter;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
@@ -20,18 +21,18 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
 
-class FeedFileServiceTest {
+class SynchronizedFileWriterTest {
 
     private static final String FILENAME = "feed_filename";
 
-    private FeedFileService feedFileService;
+    private SynchronizedFileWriter synchronizedFileWriter;
 
     private Consumer<String> writeToFeedFile;
 
     @BeforeEach
     void setup() throws IOException {
-        feedFileService = new FeedFileService();
-        writeToFeedFile = data -> feedFileService.writeln(FILENAME, data);
+        synchronizedFileWriter = new SynchronizedFileWriter();
+        writeToFeedFile = data -> synchronizedFileWriter.writeln(FILENAME, data);
         Path path = Paths.get(FILENAME);
         if (Files.exists(path)) {
             Files.delete(path);

@@ -2,7 +2,6 @@ package com.amairovi.core.service.polling;
 
 import com.amairovi.core.dao.FeedDao;
 import com.amairovi.core.model.Feed;
-import com.amairovi.core.service.FeedFileService;
 import com.amairovi.core.service.FeedFormatter;
 import com.amairovi.core.service.FeedStateService;
 import com.rometools.rome.feed.synd.SyndFeed;
@@ -16,12 +15,12 @@ import static java.util.Objects.requireNonNull;
 public class LoadTaskFactory {
     private static final Logger LOGGER = Logger.getLogger(LoadTaskFactory.class.getName());
 
-    private final FeedFileService fileService;
+    private final SynchronizedFileWriter fileService;
     private final FeedLoaderService feedLoaderService;
     private final FeedStateService feedStateService;
     private final FeedDao feedDao;
 
-    public LoadTaskFactory(FeedFileService fileService,
+    public LoadTaskFactory(SynchronizedFileWriter fileService,
                            FeedLoaderService feedLoaderService,
                            FeedStateService feedStateService,
                            FeedDao feedDao) {
