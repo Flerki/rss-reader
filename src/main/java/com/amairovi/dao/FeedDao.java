@@ -20,9 +20,9 @@ public class FeedDao {
 
         nextId = 1;
         idToFeed = new ConcurrentHashMap<>();
-        List<Feed> feeds = persistenceStore.load();
-        for (int i = 0; i < feeds.size(); i++) {
-            idToFeed.put(nextId++, feeds.get(i));
+        for (Feed feed :  persistenceStore.load()) {
+            idToFeed.put(feed.getId(), feed);
+            nextId = Math.max(nextId, feed.getId()) + 1;
         }
     }
 
