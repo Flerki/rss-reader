@@ -29,6 +29,7 @@ public class Core {
         feedPersistenceStore = new FeedPersistenceStore("feed_config.yml");
         feedDao = new FeedDao(feedPersistenceStore);
 
+
         feedLoaderService = new FeedLoaderService();
         feedFileService = new FeedFileService();
         entryPropertiesService = new EntryPropertiesService();
@@ -36,9 +37,14 @@ public class Core {
         LoadTaskFactory loadTaskFactory = new LoadTaskFactory(feedFileService, feedLoaderService, feedStateService, feedDao);
 
         ScheduledExecutorService scheduledExecutorService = newSingleThreadScheduledExecutor();
-        scheduleService = new ScheduleService(scheduledExecutorService);
+        scheduleService = new ScheduleService(scheduledExecutorService, loadTaskFactory);
 
         feedService = new FeedService(feedDao, scheduleService, loadTaskFactory, entryPropertiesService, feedLoaderService, feedStateService);
+
+        feedDao.findAll()
+                .stream()
+                .filter(Feed::isPolled)
+                .forEach(scheduleService::schedulePolling);
     }
 
     public int createFeed(String url) {
@@ -98,11 +104,6 @@ public class Core {
 
     public String describe(int id) {
         throw new RuntimeException("Not implemented");
-    }
-
-    public void redirectFeedTo(int id, String filename) {
-        throw new RuntimeException("Not implemented");
-
     }
 
     public FeedInfo getFeedFullDescription(int feedId) {
