@@ -20,27 +20,22 @@ public class FeedServiceFacade {
     private final static long DEFAULT_POLL_PERIOD_MS = 60 * 1000;
 
     private final FeedDao feedDao;
-    private final FeedPersistenceStore feedPersistenceStore;
 
-    private final FeedLoaderService feedLoaderService;
-    private final FeedFileService feedFileService;
-    private final ScheduleService scheduleService;
     private final FeedService feedService;
-    private final EntryPropertiesService entryPropertiesService;
 
     public FeedServiceFacade() {
-        feedPersistenceStore = new FeedPersistenceStore("feed_config.yml");
+        FeedPersistenceStore feedPersistenceStore = new FeedPersistenceStore("feed_config.yml");
         feedDao = new FeedDao(feedPersistenceStore);
 
 
-        feedLoaderService = new FeedLoaderService();
-        feedFileService = new FeedFileService();
-        entryPropertiesService = new EntryPropertiesService();
+        FeedLoaderService feedLoaderService = new FeedLoaderService();
+        FeedFileService feedFileService = new FeedFileService();
+        EntryPropertiesService entryPropertiesService = new EntryPropertiesService();
         FeedStateService feedStateService = new FeedStateService(entryPropertiesService);
         LoadTaskFactory loadTaskFactory = new LoadTaskFactory(feedFileService, feedLoaderService, feedStateService, feedDao);
 
         ScheduledExecutorService scheduledExecutorService = newSingleThreadScheduledExecutor();
-        scheduleService = new ScheduleService(scheduledExecutorService, loadTaskFactory);
+        ScheduleService scheduleService = new ScheduleService(scheduledExecutorService, loadTaskFactory);
 
         feedService = new FeedService(feedDao, scheduleService, entryPropertiesService, feedLoaderService, feedStateService);
 
@@ -103,10 +98,6 @@ public class FeedServiceFacade {
 
     public void stop(){
 
-    }
-
-    public String describe(int id) {
-        throw new RuntimeException("Not implemented");
     }
 
     public FeedInfo getFeedFullDescription(int feedId) {
