@@ -34,7 +34,6 @@ public class FeedPersistenceStore {
             List<Feed> loaded = yaml.load(input);
             return isNull(loaded) ? new ArrayList<>() : loaded;
         } catch (IOException e) {
-            e.printStackTrace();
             String message = "Exception occurred during load of the file with feeds. " +
                     "Highly likely error related to inconsistent state of file or its absence. " +
                     "So file with feeds is ignored. " +
