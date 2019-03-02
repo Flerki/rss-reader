@@ -49,7 +49,7 @@ stop
 
 ```describe 1``` - describes created feed.
 
-```set filename rbc 1``` - sets rbc1 as a file for writing in.
+```set filename rbc 1``` - sets rbc as a file for writing in for the feed.
 
 ```poll on 1``` - begins polling.
 
