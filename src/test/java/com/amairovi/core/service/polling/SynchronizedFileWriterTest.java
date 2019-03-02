@@ -1,13 +1,11 @@
 package com.amairovi.core.service.polling;
 
-import com.amairovi.core.service.polling.SynchronizedFileWriter;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Random;
@@ -15,6 +13,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static com.amairovi.utility.FileUtils.removeFileIfPresent;
 import static java.lang.System.lineSeparator;
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -30,21 +29,15 @@ class SynchronizedFileWriterTest {
     private Consumer<String> writeToFeedFile;
 
     @BeforeEach
-    void setup() throws IOException {
+    void setup() {
         synchronizedFileWriter = new SynchronizedFileWriter();
         writeToFeedFile = data -> synchronizedFileWriter.writeln(FILENAME, data);
-        Path path = Paths.get(FILENAME);
-        if (Files.exists(path)) {
-            Files.delete(path);
-        }
+        removeFileIfPresent(FILENAME);
     }
 
     @AfterEach
-    void cleanUp() throws IOException {
-        Path path = Paths.get(FILENAME);
-        if (Files.exists(path)) {
-            Files.delete(path);
-        }
+    void cleanUp() {
+        removeFileIfPresent(FILENAME);
     }
 
     @RepeatedTest(2)
