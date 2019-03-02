@@ -33,7 +33,7 @@ public class Core {
         feedFileService = new FeedFileService();
         entryPropertiesService = new EntryPropertiesService();
         FeedStateService feedStateService = new FeedStateService(entryPropertiesService);
-        LoadTaskFactory loadTaskFactory = new LoadTaskFactory(feedFileService, feedLoaderService, feedStateService);
+        LoadTaskFactory loadTaskFactory = new LoadTaskFactory(feedFileService, feedLoaderService, feedStateService, feedDao);
 
         ScheduledExecutorService scheduledExecutorService = newSingleThreadScheduledExecutor();
         scheduleService = new ScheduleService(scheduledExecutorService);
