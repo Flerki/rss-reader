@@ -13,7 +13,8 @@ public class ListProcessor implements CommandProcessor {
     private final static String PATTERN = "id: %d%n" +
             "name: %s%n" +
             "link: %s%n" +
-            "filename: %s";
+            "filename: %s%n" +
+            "is polled: %s";
 
     private final FeedServiceFacade feedServiceFacade;
 
@@ -39,7 +40,8 @@ public class ListProcessor implements CommandProcessor {
         String name = feedBriefInfo.getName();
         String link = feedBriefInfo.getLink();
         String filename = feedBriefInfo.getFilename();
-        return String.format(PATTERN, id, name, link, filename);
+        String isPolled = feedBriefInfo.isPolled() ? "yes" : "no";
+        return String.format(PATTERN, id, name, link, filename, isPolled);
 
     }
 
