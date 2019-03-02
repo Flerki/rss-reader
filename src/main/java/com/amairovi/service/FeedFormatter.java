@@ -26,23 +26,23 @@ public class FeedFormatter {
     }
 
     public String format(SyndFeed syndFeed) {
-        String str = syndFeed.getEntries()
+        syndFeed.getEntries()
                 .stream()
                 .limit(feed.getAmountOfElementsAtOnce())
-                .map(this::entryToString)
-                .collect(joining(lineSeparator()));
+                .forEach(this::entryToString);
 
-        return addLineSeparatorsBeforeAndAfterIfNotEmpty(str);
+        return addLineSeparatorsBeforeAndAfterIfNotEmpty();
     }
 
-    private String entryToString(SyndEntry entry) {
+    private void entryToString(SyndEntry entry) {
         addParameterIfNecessary("title", () -> entry.getTitle() != null ? entry.getTitle() : "-");
         addParameterIfNecessary("author", () -> entry.getAuthor() != null ? entry.getAuthor() : "-");
         addParameterIfNecessary("comments", () -> entry.getComments() != null ? entry.getAuthor() : "-");
         addParameterIfNecessary("link", () -> entry.getLink() != null ? entry.getLink() : "-");
         addParameterIfNecessary("uri", () -> entry.getUri() != null ? entry.getUri() : "-");
         addParameterIfNecessary("description", () -> {
-            String value = entry.getDescription().getValue();
+            SyndContent description = entry.getDescription();
+            String value =  description != null ? description.getValue() : null;
             return value != null ? value : "-";
         });
         addParameterIfNecessary("publishedDate", () -> entry.getPublishedDate() != null ? entry.getPublishedDate().toString() : "-");
@@ -52,7 +52,7 @@ public class FeedFormatter {
 
         entry.getForeignMarkup()
                 .forEach(element -> addParameterIfNecessary(element.getName(), () -> element.getValue() != null ? element.getValue() : "-"));
-        return str.toString();
+        str.append(lineSeparator());
     }
 
     private void addParameterIfNecessary(String propertyName, Supplier<String> getValue) {
@@ -73,9 +73,9 @@ public class FeedFormatter {
         return contents.stream().map(SyndContent::getValue).collect(joining());
     }
 
-    private String addLineSeparatorsBeforeAndAfterIfNotEmpty(String str) {
+    private String addLineSeparatorsBeforeAndAfterIfNotEmpty() {
         if (str.length() == 0){
-            return str;
+            return "";
         }
         return lineSeparator() + str + lineSeparator();
     }
