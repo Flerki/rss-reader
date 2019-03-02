@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
@@ -44,6 +45,14 @@ public class FeedPersistenceStore {
     }
 
     public synchronized void store(List<Feed> feeds) {
+        if (Files.exists(filepath)){
+            try {
+                Files.delete(filepath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         try (OutputStream outStream = newOutputStream(filepath, StandardOpenOption.CREATE);
              OutputStreamWriter writer = new OutputStreamWriter(outStream)) {
             Yaml yaml = new Yaml();
