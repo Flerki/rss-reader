@@ -1,5 +1,6 @@
 package com.amairovi.service;
 
+import com.amairovi.model.Feed;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -16,8 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.contains;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 class ScheduleServiceTest {
 
@@ -25,10 +25,12 @@ class ScheduleServiceTest {
 
     private Runnable doNothing = () -> {};
 
+    private LoadTaskFactory loadTaskFactory;
+
     @BeforeEach
     void setup() {
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-        LoadTaskFactory loadTaskFactory = mock(LoadTaskFactory.class);
+        loadTaskFactory = mock(LoadTaskFactory.class);
         scheduleService = new ScheduleService(scheduledExecutorService, loadTaskFactory);
     }
 
@@ -58,9 +60,14 @@ class ScheduleServiceTest {
         void when_schedule_task_then_success() throws InterruptedException {
             int period = 100;
             int feedId = 1;
-            AtomicInteger atomicInteger = new AtomicInteger();
+            Feed feed = new Feed();
+            feed.setPollPeriodInMs(period);
+            feed.setId(feedId);
 
-            scheduleService.scheduleTask(feedId, period, atomicInteger::incrementAndGet);
+            AtomicInteger atomicInteger = new AtomicInteger();
+            when(loadTaskFactory.create(eq(feed))).thenReturn(atomicInteger::incrementAndGet);
+
+            scheduleService.schedulePolling(feed);
 
             assertThat(scheduleService.getScheduledIds(), contains(feedId));
 
@@ -70,14 +77,24 @@ class ScheduleServiceTest {
 
         @Test
         void when_schedule_several_tasks_then_success() {
-            int period = 100;
             int feedId = 1;
             int feedId2 = 2;
+            int period = 100;
+            Feed feed1 = new Feed();
+            feed1.setId(feedId);
+            feed1.setPollPeriodInMs(period);
+            Feed feed2 = new Feed();
+            feed2.setId(feedId2);
+            feed2.setPollPeriodInMs(period);
 
-            scheduleService.scheduleTask(feedId, period, doNothing);
-            scheduleService.scheduleTask(feedId2, period, doNothing);
+            when(loadTaskFactory.create(any())).thenReturn(doNothing);
+
+            scheduleService.schedulePolling(feed1);
+            scheduleService.schedulePolling(feed2);
 
             assertThat(scheduleService.getScheduledIds(), contains(feedId, feedId2));
+            verify(loadTaskFactory).create(eq(feed1));
+            verify(loadTaskFactory).create(eq(feed2));
         }
     }
 
@@ -97,14 +114,14 @@ class ScheduleServiceTest {
 
         @Test
         void when_no_cancelling_task_then_do_nothing() {
-            scheduleService.cancelTask(3);
+            scheduleService.cancelPolling(3);
 
             assertThat(scheduleService.getScheduledIds(), contains(1, 2));
         }
 
         @Test
         void when_cancel_scheduled_task_then_cancel_it() {
-            scheduleService.cancelTask(2);
+            scheduleService.cancelPolling(2);
 
             assertThat(scheduleService.getScheduledIds(), contains(1));
 

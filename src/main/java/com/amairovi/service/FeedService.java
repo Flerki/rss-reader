@@ -11,20 +11,17 @@ import static java.util.Objects.requireNonNull;
 public class FeedService {
     private final FeedDao feedDao;
     private final ScheduleService scheduleService;
-    private final LoadTaskFactory loadTaskFactory;
     private final EntryPropertiesService entryPropertiesService;
     private final FeedLoaderService feedLoaderService;
     private final FeedStateService feedStateService;
 
     public FeedService(FeedDao feedDao,
                        ScheduleService scheduleService,
-                       LoadTaskFactory loadTaskFactory,
                        EntryPropertiesService entryPropertiesService,
                        FeedLoaderService feedLoaderService,
                        FeedStateService feedStateService) {
         this.feedDao = feedDao;
         this.scheduleService = scheduleService;
-        this.loadTaskFactory = loadTaskFactory;
         this.entryPropertiesService = entryPropertiesService;
         this.feedLoaderService = feedLoaderService;
         this.feedStateService = feedStateService;
@@ -75,10 +72,9 @@ public class FeedService {
         feedDao.update(feed);
         
         if (feed.isPolled()){
-            scheduleService.cancelTask(feed.getId());
+            scheduleService.cancelPolling(feed.getId());
 
-            Runnable task = loadTaskFactory.create(feed);
-            scheduleService.scheduleTask(feed.getId(), pollPeriodInMs, task);
+            scheduleService.schedulePolling(feed);
         }
     }
 
@@ -104,10 +100,7 @@ public class FeedService {
         feed.setPolled(true);
         feedDao.update(feed);
 
-        int id = feed.getId();
-        long pollPeriodInMs = feed.getPollPeriodInMs();
-        Runnable task = loadTaskFactory.create(feed);
-        scheduleService.scheduleTask(id, pollPeriodInMs, task);
+        scheduleService.schedulePolling(feed);
     }
 
     public void disablePoll(Feed feed){
@@ -117,7 +110,7 @@ public class FeedService {
         feedDao.update(feed);
 
         int id = feed.getId();
-        scheduleService.cancelTask(id);
+        scheduleService.cancelPolling(id);
     }
 
     public Feed findById(int id){

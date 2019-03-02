@@ -39,7 +39,7 @@ public class Core {
         ScheduledExecutorService scheduledExecutorService = newSingleThreadScheduledExecutor();
         scheduleService = new ScheduleService(scheduledExecutorService, loadTaskFactory);
 
-        feedService = new FeedService(feedDao, scheduleService, loadTaskFactory, entryPropertiesService, feedLoaderService, feedStateService);
+        feedService = new FeedService(feedDao, scheduleService, entryPropertiesService, feedLoaderService, feedStateService);
 
         feedDao.findAll()
                 .stream()

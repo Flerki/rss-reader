@@ -37,7 +37,7 @@ class FeedServiceTest {
         feedLoaderService = mock(FeedLoaderService.class);
         FeedStateService feedStateService = mock(FeedStateService.class);
 
-        feedService = new FeedService(feedDao, scheduleService, loadTaskFactory, entryPropertiesService, feedLoaderService, feedStateService);
+        feedService = new FeedService(feedDao, scheduleService, entryPropertiesService, feedLoaderService, feedStateService);
 
         feed = new Feed();
         feedId = 1;
@@ -136,7 +136,7 @@ class FeedServiceTest {
         void when_feed_is_not_null_then_disable() {
             feedService.disablePoll(feed);
 
-            verify(scheduleService).cancelTask(feedId);
+            verify(scheduleService).cancelPolling(feedId);
         }
     }
 

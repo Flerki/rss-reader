@@ -25,16 +25,16 @@ public class ScheduleService {
     }
 
     public void schedulePolling(Feed feed){
+        int id = feed.getId();
+
+        removeExisted(id);
+
         Runnable task = loadTaskFactory.create(feed);
-        scheduleTask(feed.getId(), feed.getPollPeriodInMs(), task);
+        long pollPeriodInMs = feed.getPollPeriodInMs();
+        scheduleNewOne(id, pollPeriodInMs, task);
     }
 
-    public void scheduleTask(int feedId, long period, Runnable loadTask) {
-        removeExisted(feedId);
-        scheduleNewOne(feedId, period, loadTask);
-    }
-
-    public void cancelTask(int feedId) {
+    public void cancelPolling(int feedId) {
         removeExisted(feedId);
     }
 
