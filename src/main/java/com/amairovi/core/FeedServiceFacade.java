@@ -97,8 +97,8 @@ public class FeedServiceFacade {
     }
 
     public void delete(int id) {
-        throw new RuntimeException("Not implemented");
-
+        Feed feed = feedService.findById(id);
+        feedDao.delete(feed);
     }
 
     public void stop(){

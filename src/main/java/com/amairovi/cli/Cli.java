@@ -29,6 +29,7 @@ public class Cli {
         commandToProcessor.put("hide", new HidePropertyProcessor(feedServiceFacade));
         commandToProcessor.put("poll", new PollProcessor(feedServiceFacade));
         commandToProcessor.put("set", new SetProcessor(feedServiceFacade));
+        commandToProcessor.put("delete", new DeleteProcessor(feedServiceFacade));
     }
 
     public void start() {

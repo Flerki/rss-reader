@@ -43,6 +43,14 @@ public class FeedDao {
         persistenceStore.store(findAll());
     }
 
+    public void delete(Feed feed){
+        int id = feed.getId();
+        idToFeed.remove(id);
+
+        List<Feed> all = findAll();
+        persistenceStore.store(all);
+    }
+
     public Optional<Feed> findByName(String name) {
         Predicate<Feed> feedWithSearchedName = feed -> feed.getName().equals(name);
         return feeds()
