@@ -3,7 +3,6 @@ package com.amairovi.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +28,8 @@ class ScheduleServiceTest {
     @BeforeEach
     void setup() {
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-        scheduleService = new ScheduleService(scheduledExecutorService);
+        LoadTaskFactory loadTaskFactory = mock(LoadTaskFactory.class);
+        scheduleService = new ScheduleService(scheduledExecutorService, loadTaskFactory);
     }
 
     @Nested

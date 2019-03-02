@@ -1,5 +1,7 @@
 package com.amairovi.service;
 
+import com.amairovi.model.Feed;
+
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,9 +15,18 @@ public class ScheduleService {
 
     private final ScheduledExecutorService executor;
 
-    public ScheduleService(ScheduledExecutorService executor) {
+    private final LoadTaskFactory loadTaskFactory;
+
+
+    public ScheduleService(ScheduledExecutorService executor, LoadTaskFactory loadTaskFactory) {
+        this.loadTaskFactory = loadTaskFactory;
         this.idToTask = new ConcurrentHashMap<>();
         this.executor = executor;
+    }
+
+    public void schedulePolling(Feed feed){
+        Runnable task = loadTaskFactory.create(feed);
+        scheduleTask(feed.getId(), feed.getPollPeriodInMs(), task);
     }
 
     public void scheduleTask(int feedId, long period, Runnable loadTask) {
