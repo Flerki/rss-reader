@@ -26,11 +26,13 @@ public class FeedFormatter {
     }
 
     public String format(SyndFeed syndFeed) {
-        return syndFeed.getEntries()
+        String str = syndFeed.getEntries()
                 .stream()
                 .limit(feed.getAmountOfElementsAtOnce())
                 .map(this::entryToString)
-                .collect(joining(lineSeparator(), lineSeparator(), lineSeparator()));
+                .collect(joining(lineSeparator()));
+
+        return addLineSeparatorsBeforeAndAfterIfNotEmpty(str);
     }
 
     private String entryToString(SyndEntry entry) {
@@ -69,5 +71,12 @@ public class FeedFormatter {
 
     private String contentToString(List<SyndContent> contents) {
         return contents.stream().map(SyndContent::getValue).collect(joining());
+    }
+
+    private String addLineSeparatorsBeforeAndAfterIfNotEmpty(String str) {
+        if (str.length() == 0){
+            return str;
+        }
+        return lineSeparator() + str + lineSeparator();
     }
 }

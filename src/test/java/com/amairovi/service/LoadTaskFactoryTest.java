@@ -3,6 +3,7 @@ package com.amairovi.service;
 import com.amairovi.model.Feed;
 import com.rometools.rome.feed.synd.SyndFeed;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.ArgumentMatchers.eq;
@@ -15,12 +16,13 @@ class LoadTaskFactoryTest {
     private LoadTaskFactory loadTaskFactory;
     private FeedFileService feedFileService;
     private FeedLoaderService feedLoaderService;
+    private FeedStateService feedStateService;
 
     @BeforeEach
     void setup() {
         feedFileService = mock(FeedFileService.class);
         feedLoaderService = mock(FeedLoaderService.class);
-        FeedStateService feedStateService = mock(FeedStateService.class);
+        feedStateService = mock(FeedStateService.class);
         loadTaskFactory = new LoadTaskFactory(feedFileService, feedLoaderService, feedStateService);
     }
 
@@ -30,15 +32,15 @@ class LoadTaskFactoryTest {
         feed.setFilename(FILENAME);
 
         SyndFeed syndFeed = mock(SyndFeed.class);
-        String syndFeedStr = "syndFeed";
 
-        when(syndFeed.toString()).thenReturn(syndFeedStr);
         when(feedLoaderService.load(eq(feed))).thenReturn(syndFeed);
 
         Runnable runnable = loadTaskFactory.create(feed);
         runnable.run();
 
         verify(feedLoaderService).load(eq(feed));
-        verify(feedFileService).writeln(eq(feed.getFilename()), eq(syndFeedStr));
+        verify(feedStateService).update(eq(syndFeed), eq(feed));
+
+        verify(feedFileService).writeln(eq(feed.getFilename()), any());
     }
 }
