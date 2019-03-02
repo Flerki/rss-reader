@@ -1,4 +1,4 @@
-package com.amairovi.core.service;
+package com.amairovi.core.service.polling;
 
 import com.amairovi.core.model.Feed;
 import com.amairovi.core.service.polling.LoadTaskFactory;

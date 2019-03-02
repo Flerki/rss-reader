@@ -1,9 +1,8 @@
-package com.amairovi.core.service;
+package com.amairovi.core.service.polling;
 
 import com.amairovi.core.exception.FeedProcessingException;
 import com.amairovi.core.exception.InvalidLinkFormatException;
 import com.amairovi.core.model.Feed;
-import com.amairovi.core.service.polling.FeedLoaderService;
 import com.amairovi.utility.FeedStubServer;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.FeedException;

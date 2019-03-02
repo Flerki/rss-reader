@@ -1,4 +1,4 @@
-package com.amairovi.core.service;
+package com.amairovi.core.service.polling;
 
 import com.amairovi.core.service.polling.SynchronizedFileWriter;
 import org.junit.jupiter.api.AfterEach;

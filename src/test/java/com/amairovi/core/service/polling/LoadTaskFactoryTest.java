@@ -1,7 +1,8 @@
-package com.amairovi.core.service;
+package com.amairovi.core.service.polling;
 
 import com.amairovi.core.dao.FeedDao;
 import com.amairovi.core.model.Feed;
+import com.amairovi.core.service.FeedStateService;
 import com.amairovi.core.service.polling.FeedLoaderService;
 import com.amairovi.core.service.polling.LoadTaskFactory;
 import com.amairovi.core.service.polling.SynchronizedFileWriter;
