@@ -41,7 +41,6 @@ public class FeedFileService {
         synchronized (monitor) {
             try (BufferedWriter out = Files.newBufferedWriter(pathToFile, StandardOpenOption.APPEND)) {
                 out.write(data);
-                out.newLine();
             }
         }
     }
