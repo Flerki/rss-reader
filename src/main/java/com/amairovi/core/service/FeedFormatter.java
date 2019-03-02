@@ -6,8 +6,10 @@ import com.rometools.rome.feed.synd.SyndContent;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import static java.lang.System.lineSeparator;
@@ -18,16 +20,22 @@ public class FeedFormatter {
     private final StringBuilder str;
     private final Map<String, Boolean> entryParameterNameToVisibility;
     private final Feed feed;
+    private final Predicate<SyndEntry> isNewEntry;
 
     public FeedFormatter(Feed feed) {
         str = new StringBuilder();
         entryParameterNameToVisibility = feed.getEntryParameterNameToVisibility();
         this.feed = feed;
+        isNewEntry = entry -> {
+            Date publishedDate = entry.getPublishedDate();
+            return publishedDate != null && publishedDate.toInstant().toEpochMilli() > feed.getLastPollAtMs();
+        };
     }
 
     public String format(SyndFeed syndFeed) {
         syndFeed.getEntries()
                 .stream()
+                .filter(isNewEntry)
                 .limit(feed.getAmountOfElementsAtOnce())
                 .forEach(this::entryToString);
 
@@ -42,7 +50,7 @@ public class FeedFormatter {
         addParameterIfNecessary("uri", () -> entry.getUri() != null ? entry.getUri() : "-");
         addParameterIfNecessary("description", () -> {
             SyndContent description = entry.getDescription();
-            String value =  description != null ? description.getValue() : null;
+            String value = description != null ? description.getValue() : null;
             return value != null ? value : "-";
         });
         addParameterIfNecessary("publishedDate", () -> entry.getPublishedDate() != null ? entry.getPublishedDate().toString() : "-");
@@ -74,7 +82,7 @@ public class FeedFormatter {
     }
 
     private String addLineSeparatorsBeforeAndAfterIfNotEmpty() {
-        if (str.length() == 0){
+        if (str.length() == 0) {
             return "";
         }
         return lineSeparator() + str + lineSeparator();
