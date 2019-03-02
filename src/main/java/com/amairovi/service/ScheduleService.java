@@ -2,6 +2,7 @@ package com.amairovi.service;
 
 import com.amairovi.model.Feed;
 
+import java.time.Instant;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -31,7 +32,16 @@ public class ScheduleService {
 
         Runnable task = loadTaskFactory.create(feed);
         long pollPeriodInMs = feed.getPollPeriodInMs();
-        scheduleNewOne(id, pollPeriodInMs, task);
+
+        long delay = calculateDelay(feed);
+        scheduleNewOne(id, delay, pollPeriodInMs, task);
+    }
+
+    private long calculateDelay(Feed feed) {
+        long lastPollAtMs = feed.getLastPollAtMs();
+        long pollPeriodInMs = feed.getPollPeriodInMs();
+        long nowInMs = Instant.now().toEpochMilli();
+        return Math.max(0, lastPollAtMs + pollPeriodInMs - nowInMs);
     }
 
     public void cancelPolling(int feedId) {
@@ -47,8 +57,8 @@ public class ScheduleService {
         }
     }
 
-    private void scheduleNewOne(int feedId, long period, Runnable loadTask) {
-        ScheduledFuture<?> scheduledFuture = executor.scheduleAtFixedRate(loadTask, 0, period, TimeUnit.MILLISECONDS);
+    private void scheduleNewOne(int feedId, long delay, long period, Runnable loadTask) {
+        ScheduledFuture<?> scheduledFuture = executor.scheduleAtFixedRate(loadTask, delay, period, TimeUnit.MILLISECONDS);
         idToTask.put(feedId, scheduledFuture);
     }
 
