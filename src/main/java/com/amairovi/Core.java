@@ -45,9 +45,9 @@ public class Core {
         return feedService.createFeed(url);
     }
 
-    public void setFeedSurveyPeriod(int id, long pollPeriod) {
+    public void setPollPeriodInMs(int id, long pollPeriodInMs) {
         Feed feed = feedService.findById(id);
-        feedService.setFeedSurveyPeriod(feed, pollPeriod);
+        feedService.setPollPeriodInMs(feed, pollPeriodInMs);
     }
 
     public void setFeedFilename(int id, String filename) {

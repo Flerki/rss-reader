@@ -71,19 +71,19 @@ class FeedServiceTest {
     class SetFeedSurveyPeriod {
         @Test
         void when_feed_is_null_then_NPE() {
-            assertThrowsNpe(() -> feedService.setFeedSurveyPeriod(null, 1));
+            assertThrowsNpe(() -> feedService.setPollPeriodInMs(null, 1));
         }
 
         @ParameterizedTest
         @ValueSource(longs = {0, -1, Long.MIN_VALUE})
         void when_period_is_less_then_one_then_exception(long surveyPeriodInMs) {
-            assertThrowsIae(() -> feedService.setFeedSurveyPeriod(feed, surveyPeriodInMs));
+            assertThrowsIae(() -> feedService.setPollPeriodInMs(feed, surveyPeriodInMs));
         }
 
         @ParameterizedTest
         @ValueSource(longs = {1, 100, Long.MAX_VALUE})
         void when_feed_and_period_is_ok_then_success(long surveyPeriodInMs) {
-            feedService.setFeedSurveyPeriod(feed, surveyPeriodInMs);
+            feedService.setPollPeriodInMs(feed, surveyPeriodInMs);
 
             assertEquals(feed.getPollPeriodInMs(), surveyPeriodInMs);
 

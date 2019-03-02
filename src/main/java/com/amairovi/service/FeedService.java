@@ -86,7 +86,7 @@ public class FeedService {
         feedDao.update(feed);
     }
 
-    public void setFeedSurveyPeriod(Feed feed, long pollPeriodInMs){
+    public void setPollPeriodInMs(Feed feed, long pollPeriodInMs){
         requireNonNull(feed);
 
         if (pollPeriodInMs < 1){
@@ -95,6 +95,8 @@ public class FeedService {
 
         feed.setPollPeriodInMs(pollPeriodInMs);
         feedDao.update(feed);
+
+        scheduleService.cancelTask(feed.getId());
 
         Runnable task = loadTaskFactory.create(feed);
         scheduleService.scheduleTask(feed.getId(), pollPeriodInMs, task);
