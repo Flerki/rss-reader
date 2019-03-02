@@ -5,7 +5,9 @@ import com.amairovi.core.dao.FeedPersistenceStore;
 import com.amairovi.core.dto.FeedBriefInfo;
 import com.amairovi.core.dto.FeedInfo;
 import com.amairovi.core.model.Feed;
-import com.amairovi.core.service.*;
+import com.amairovi.core.service.EntryPropertiesService;
+import com.amairovi.core.service.FeedService;
+import com.amairovi.core.service.FeedStateService;
 import com.amairovi.core.service.polling.FeedLoaderService;
 import com.amairovi.core.service.polling.LoadTaskFactory;
 import com.amairovi.core.service.polling.ScheduleService;
@@ -15,17 +17,31 @@ import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.stream.Collectors;
 
-import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
+import static java.util.concurrent.Executors.newScheduledThreadPool;
 
 public class FeedServiceFacade {
+    public final static String DEFAULT_CONFIG_FILENAME = "feed_config.yml";
+
     private final static long DEFAULT_POLL_PERIOD_MS = 60 * 1000;
 
-    private final FeedDao feedDao;
+    private FeedDao feedDao;
 
-    private final FeedService feedService;
+    private FeedService feedService;
+
+    private final ScheduledExecutorService scheduledExecutorService;
 
     public FeedServiceFacade() {
-        FeedPersistenceStore feedPersistenceStore = new FeedPersistenceStore("feed_config.yml");
+        int amountOfAvailableProcessors = Runtime.getRuntime().availableProcessors();
+        scheduledExecutorService = newScheduledThreadPool(amountOfAvailableProcessors - 1);
+    }
+
+
+    FeedServiceFacade(ScheduledExecutorService scheduledExecutorService) {
+        this.scheduledExecutorService = scheduledExecutorService;
+    }
+
+    public void initialize() {
+        FeedPersistenceStore feedPersistenceStore = new FeedPersistenceStore(DEFAULT_CONFIG_FILENAME);
         feedDao = new FeedDao(feedPersistenceStore);
 
 
@@ -35,7 +51,6 @@ public class FeedServiceFacade {
         FeedStateService feedStateService = new FeedStateService(entryPropertiesService);
         LoadTaskFactory loadTaskFactory = new LoadTaskFactory(synchronizedFileWriter, feedLoaderService, feedStateService, feedDao);
 
-        ScheduledExecutorService scheduledExecutorService = newSingleThreadScheduledExecutor();
         ScheduleService scheduleService = new ScheduleService(scheduledExecutorService, loadTaskFactory);
 
         feedService = new FeedService(feedDao, scheduleService, entryPropertiesService, feedLoaderService, feedStateService);
@@ -97,7 +112,7 @@ public class FeedServiceFacade {
         feedDao.delete(feed);
     }
 
-    public void stop(){
+    public void stop() {
 
     }
 
