@@ -4,7 +4,7 @@ import java.util.Map;
 
 import static java.lang.System.lineSeparator;
 
-public class EntryPropertiesFormatter {
+public class EntryPropertiesFormatter extends AbstractFormatter{
     private final static String PATTERN = "%s: %s%n";
 
     public String format(Map<String, Boolean> entryParameterNameToVisibility) {
