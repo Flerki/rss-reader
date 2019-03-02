@@ -40,6 +40,8 @@ public class Cli {
     }
 
     public void start() {
+        System.out.println("Rss-reader is ready to serve");
+        System.out.println("Please, type in a command or run 'help'");
         while (true) {
             String commandLine = scanner.nextLine().trim();
             try {
