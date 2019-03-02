@@ -24,6 +24,16 @@ public class Feed {
 
     private boolean isPolled;
 
+    private long lastPollAtMs;
+
+    public long getLastPollAtMs() {
+        return lastPollAtMs;
+    }
+
+    public void setLastPollAtMs(long lastPollAtMs) {
+        this.lastPollAtMs = lastPollAtMs;
+    }
+
     public FeedProperties getFeedProperties() {
         return feedProperties;
     }
