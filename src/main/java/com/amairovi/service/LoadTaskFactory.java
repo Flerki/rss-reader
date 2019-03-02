@@ -29,13 +29,18 @@ public class LoadTaskFactory {
         requireNonNull(feed);
 
         return () -> {
-            LOGGER.log(Level.INFO, () -> "run load task for feed=" + feed);
+            try {
+                LOGGER.log(Level.INFO, () -> "run load task for feed=" + feed);
 
-            SyndFeed syndFeed = feedLoaderService.load(feed);
-            feedStateService.update(syndFeed, feed);
+                SyndFeed syndFeed = feedLoaderService.load(feed);
+                feedStateService.update(syndFeed, feed);
 
-            String syndFeedStr = new FeedFormatter(feed).format(syndFeed);
-            fileService.writeln(feed.getFilename(), syndFeedStr);
+                FeedFormatter feedFormatter = new FeedFormatter(feed);
+                String syndFeedStr = feedFormatter.format(syndFeed);
+                fileService.writeln(feed.getFilename(), syndFeedStr);
+            }catch (Exception e){
+                LOGGER.log(Level.WARNING, e::getMessage);
+            }
         };
     }
 }
