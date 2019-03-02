@@ -51,19 +51,6 @@ class FeedServiceTest {
         void when_url_is_null_then_NPE() {
             assertThrowsNpe(() -> feedService.createFeed(null, 1));
         }
-
-        @Test
-        void when_params_are_ok_then_success() {
-            Runnable task = mock(Runnable.class);
-            when(loadTaskFactory.create(any())).thenReturn(task);
-            long pollPeriod = 100;
-
-            feedService.createFeed("https://example.com/go?id=asd%20%30&id=2cd", pollPeriod);
-
-            verify(feedDao).save(any());
-            verify(loadTaskFactory).create(any());
-            verify(scheduleService).scheduleTask(anyInt(), eq(pollPeriod), eq(task));
-        }
     }
 
 

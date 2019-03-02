@@ -42,7 +42,7 @@ public class Core {
     }
 
     public int createFeed(String url) {
-        return feedService.createFeed(url);
+        return feedService.createFeed(url, DEFAULT_POLL_PERIOD_MS);
     }
 
     public void setPollPeriodInMs(int id, long pollPeriodInMs) {

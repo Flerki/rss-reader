@@ -16,8 +16,6 @@ public class FeedService {
     private final FeedLoaderService feedLoaderService;
     private final FeedStateService feedStateService;
 
-    private final static long DEFAULT_POLL_PERIOD = 10_000L;
-
     public FeedService(FeedDao feedDao,
                        ScheduleService scheduleService,
                        LoadTaskFactory loadTaskFactory,
@@ -32,7 +30,7 @@ public class FeedService {
         this.feedStateService = feedStateService;
     }
 
-    public int createFeed(String url){
+    public int createFeed(String url, long pollPeriodInMs){
         requireNonNull(url);
 
         SyndFeed syndFeed = feedLoaderService.load(url);
@@ -49,31 +47,11 @@ public class FeedService {
         String filename = url.replaceAll("[^A-Za-z0-9]", "_");
         feed.setFilename(filename);
         feed.setHref(url);
-        feed.setPollPeriodInMs(DEFAULT_POLL_PERIOD);
+        feed.setPollPeriodInMs(pollPeriodInMs);
 
         feedStateService.update(syndFeed, feed);
         feedDao.save(feed);
         return feed.getId();
-    }
-
-    public void createFeed(String url, long pollPeriodInMs){
-        requireNonNull(url);
-        if (pollPeriodInMs < 1){
-            throw new IllegalArgumentException("Poll period has to be greater than 0");
-        }
-
-        String filename = url.replaceAll("[^A-Za-z0-9]", "_");
-        Feed feed = new Feed();
-        feed.setHref(url);
-        feed.setName(filename);
-        feed.setPollPeriodInMs(pollPeriodInMs);
-
-        feedDao.save(feed);
-
-        int id = feed.getId();
-
-        Runnable task = loadTaskFactory.create(feed);
-        scheduleService.scheduleTask(id, pollPeriodInMs, task);
     }
 
     public void hideProperty(Feed feed, String propertyName){
