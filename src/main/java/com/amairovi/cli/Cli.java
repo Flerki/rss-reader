@@ -1,5 +1,7 @@
 package com.amairovi.cli;
 
+import com.amairovi.cli.formatter.ChannelInfoFormatter;
+import com.amairovi.cli.formatter.EntryPropertiesFormatter;
 import com.amairovi.core.FeedServiceFacade;
 import com.amairovi.cli.command.*;
 import com.amairovi.cli.formatter.FeedConfigsFormatter;
@@ -20,7 +22,9 @@ public class Cli {
         commandToProcessor = new HashMap<>();
         unknownCommandProcessor = new UnknownCommandProcessor();
 
-        FeedConfigsFormatter feedConfigsFormatter = new FeedConfigsFormatter();
+        ChannelInfoFormatter channelInfoFormatter = new ChannelInfoFormatter();
+        EntryPropertiesFormatter entryPropertiesFormatter = new EntryPropertiesFormatter();
+        FeedConfigsFormatter feedConfigsFormatter = new FeedConfigsFormatter(channelInfoFormatter, entryPropertiesFormatter);
 
         commandToProcessor.put("list", new ListProcessor(feedServiceFacade));
         commandToProcessor.put("create", new CreateProcessor(feedServiceFacade, feedConfigsFormatter, scanner));
@@ -30,6 +34,8 @@ public class Cli {
         commandToProcessor.put("poll", new PollProcessor(feedServiceFacade));
         commandToProcessor.put("set", new SetProcessor(feedServiceFacade));
         commandToProcessor.put("delete", new DeleteProcessor(feedServiceFacade));
+        commandToProcessor.put("describe", new DescribeProcessor(feedServiceFacade, feedConfigsFormatter));
+
         commandToProcessor.put("help", new HelpProcessor(commandToProcessor));
     }
 

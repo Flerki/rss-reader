@@ -1,9 +1,8 @@
 package com.amairovi.cli.command;
 
-import com.amairovi.core.FeedServiceFacade;
 import com.amairovi.cli.CommandProcessor;
 import com.amairovi.cli.formatter.FeedConfigsFormatter;
-import com.amairovi.core.dto.ChannelInfo;
+import com.amairovi.core.FeedServiceFacade;
 import com.amairovi.core.dto.FeedInfo;
 
 import java.util.Scanner;
@@ -34,26 +33,7 @@ public class CreateProcessor implements CommandProcessor {
 
     private void printFeedInfo(int feedId) {
         FeedInfo feedFullDescription = feedServiceFacade.getFeedFullDescription(feedId);
-
-        System.out.println(feedConfigsFormatter.format(feedFullDescription));
-        System.out.println();
-
-        System.out.println("Feed info");
-        ChannelInfo channelInfo = feedFullDescription.getChannelInfo();
-        System.out.println("title: " + channelInfo.getTitle());
-        System.out.println("link: " + channelInfo.getLink());
-        System.out.println("description: " + channelInfo.getDescription());
-        System.out.println("uri: " + channelInfo.getUri());
-        System.out.println("generator: " + channelInfo.getGenerator());
-        System.out.println("language: " + channelInfo.getLanguage());
-        System.out.println();
-
-        System.out.println("Feed's entries' properties");
-        feedFullDescription.getEntryParameterNameToVisibility()
-                .keySet()
-                .forEach(System.out::println);
-
-        System.out.println();
+        System.out.println(feedConfigsFormatter.formatDeep(feedFullDescription));
 
         System.out.println("Do you want to hide any of parameters? (y/n)");
         if (readYesNo()) {
