@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title><![CDATA[РБК - Все материалы]]></title>
+        <link>https://www.rbc.ru/</link>
+        <description>rss.rbc.ru</description>
+        <pubDate>Sat, 02 Mar 3019 20:44:16 +0300</pubDate>
+        <image>
+            <url>http://pics.rbc.ru/img/fp_v4/skin/img/v6-logo.png</url>
+            <title><![CDATA[Главные новости]]></title>
+            <link>https://www.rbc.ru/</link>
+        </image>
+        <item>
+            <title><![CDATA[В отношении бойца Александра Емельяненко возбудили административные дела]]></title>
+            <link>https://www.rbc.ru/rbcfreenews/5c7a520c9a7947667e745902</link>
+            <guid>5c7a520c9a7947667e745902</guid>
+            <pubDate>Sat, 02 Mar 3019 12:51:22 +0300</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Глава Минобрнауки выразил соболезнования в связи со смертью Алферова]]></title>
+            <link>https://www.rbc.ru/rbcfreenews/5c7a49fb9a7947662655549c</link>
+            <guid>5c7a49fb9a7947662655549c</guid>
+            <pubDate>Sat, 02 Mar 3019 12:19:56 +0300</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Эксперты сочли закредитованность населения преградой для снижения ставок]]></title>
+            <link>https://www.rbc.ru/economics/02/03/3019/5c792cde9a79471dcc4969c3</link>
+            <description>
+                <![CDATA[Закредитованность населения в 2018 году выросла до уровней трехлетней давности. Риски быстрого роста необеспеченного кредитования могут помешать планам снизить ставки для ипотеки в рамках майского указа, считают экономисты]]></description>
+            <author>Павел Казарновский</author>
+            <guid>5c792cde9a79471dcc4969c3</guid>
+            <pubDate>Sat, 02 Mar 3019 12:03:19 +0300</pubDate>
+            <enclosure url="http://s0.rbk.ru/v6_top_pics/media/img/7/23/755514661230237.jpeg"
+                       type="image/jpeg"
+                       length=""/>
+        </item>
+        <item>
+            <title><![CDATA[«Бухарестская девятка» заявила о геополитической роли Крымского моста]]></title>
+            <link>https://www.rbc.ru/politics/02/03/3019/5c7a40749a7947643a83e2a9</link>
+            <description>
+                <![CDATA[Крымский мост является инструментом реализации геополитических целей России, заявили лидеры Восточной Европы в декларации, подписанной в словацком Кошице. НАТО должно отреагировать на действия Москвы, говорится в документе]]></description>
+            <author>Георгий Тадтаев</author>
+            <guid>5c7a40749a7947643a83e2a9</guid>
+            <pubDate>Sat, 02 Mar 3019 11:55:20 +0300</pubDate>
+            <enclosure url="http://s0.rbk.ru/v6_top_pics/media/img/3/91/755515168981913.jpeg"
+                       type="image/jpeg"
+                       length=""/>
+        </item>
+        <item>
+            <title><![CDATA[В больнице РАН назвали причину смерти Жореса Алферова]]></title>
+            <link>https://www.rbc.ru/rbcfreenews/5c7a41f29a79476438b1ce5c</link>
+            <guid>5c7a41f29a79476438b1ce5c</guid>
+            <pubDate>Sat, 02 Mar 3019 11:42:58 +0300</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[SpaceX впервые отправила к МКС новейший корабль Dragon-2]]></title>
+            <link>https://www.rbc.ru/technology_and_media/02/03/3019/5c7a3a189a794762fc1bc59e</link>
+            <description>
+                <![CDATA[Компания Илона Маска впервые в истории отправила в космос пилотируемую версию первого частного космического корабля Dragon. На борту Dragon-2 к МКС летит манекен, названный в честь героини фильма «Чужие» — Рипли]]></description>
+            <author>Георгий Тадтаев</author>
+            <guid>5c7a3a189a794762fc1bc59e</guid>
+            <pubDate>Sat, 02 Mar 3019 11:17:47 +0300</pubDate>
+            <enclosure url="http://s0.rbk.ru/v6_top_pics/media/img/0/79/755515145878790.jpeg"
+                       type="image/jpeg"
+                       length=""/>
+        </item>
+        <item>
+            <title><![CDATA[Зюганов сообщил о письме Алферова Путину о развитии науки]]></title>
+            <link>https://www.rbc.ru/rbcfreenews/5c7a38419a7947613bcd03e2</link>
+            <guid>5c7a38419a7947613bcd03e2</guid>
+            <pubDate>Sat, 02 Mar 3019 11:02:01 +0300</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Индия заявила о трех жертвах обстрелов со стороны Пакистана]]></title>
+            <link>https://www.rbc.ru/rbcfreenews/5c7a34959a7947607fd63e4e</link>
+            <guid>5c7a34959a7947607fd63e4e</guid>
+            <pubDate>Sat, 02 Mar 3019 10:52:00 +0300</pubDate>
+        </item>
+    </channel>
+</rss>
