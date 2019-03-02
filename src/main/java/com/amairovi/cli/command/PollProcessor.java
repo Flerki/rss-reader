@@ -15,6 +15,10 @@ public class PollProcessor implements CommandProcessor {
 
     @Override
     public void process(String[] params) {
+        if (params.length != 3){
+            throwUnknownCommandException(params);
+        }
+
         String pollStatus = params[1];
 
         int id = Integer.valueOf(params[2]);
@@ -23,12 +27,21 @@ public class PollProcessor implements CommandProcessor {
             core.enablePoll(id);
             String message = String.format(ENABLE_PATTERN, id);
             System.out.println(message);
+            return;
         }
 
         if (pollStatus.equals("off")) {
             core.disablePoll(id);
             String message = String.format(DISABLE_PATTERN, id);
             System.out.println(message);
+            return;
         }
+
+        throwUnknownCommandException(params);
+    }
+
+    @Override
+    public String commandFormat() {
+        return "poll [on|off] <feedId>";
     }
 }
